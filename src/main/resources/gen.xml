@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- !!!! 生成Model Mapper  Mapper.xml 的!!!! -->
+<!DOCTYPE generatorConfiguration PUBLIC
+        "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+
+    <!-- !!!! Driver Class Path !!!! -->
+    <classPathEntry location="D:\mysql-connector-java-5.1.38-bin.jar"/>
+
+    <context id="context" targetRuntime="MyBatis3">
+        <commentGenerator>
+            <property name="suppressAllComments" value="true"/>
+            <property name="suppressDate" value="true"/>
+        </commentGenerator>
+
+        <!-- !!!! Database Configurations !!!! -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://localhost:3306/db_pet" userId="root" password="root"/>
+
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <!-- !!!! Model Configurations !!!! -->
+        <javaModelGenerator targetPackage="cn.ctide.pet.Model" targetProject="petServer">
+            <property name="enableSubPackages" value="false"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!-- !!!! Mapper XML Configurations !!!! -->
+        <sqlMapGenerator targetPackage="cn.ctide.pet.Mapper" targetProject="petServer">
+            <property name="enableSubPackages" value="false"/>
+        </sqlMapGenerator>
+
+        <!-- !!!! Mapper Interface Configurations !!!! -->
+        <javaClientGenerator targetPackage="cn.ctide.pet.Dao" targetProject="petServer" type="XMLMAPPER">
+            <property name="enableSubPackages" value="false"/>
+        </javaClientGenerator>
+
+        <!-- !!!! Table Configurations !!!! -->
+        <!--<table tableName="im_friendship" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+               <!--enableUpdateByExample="false"/>-->
+        <!--<table tableName="im_login" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+               <!--enableUpdateByExample="false"/>-->
+        <!--<table tableName="im_login_log" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+               <!--enableUpdateByExample="false"/>-->
+        <table tableName="petclass" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               enableUpdateByExample="false"/>
+    </context>
+</generatorConfiguration>

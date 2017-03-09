@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ctide.pet.Dao.PetMapper">
+  <resultMap id="BaseResultMap" type="cn.ctide.pet.Model.Pet">
+    <id column="pet_id" jdbcType="INTEGER" property="petId" />
+    <result column="m_id" jdbcType="INTEGER" property="mId" />
+    <result column="petc_id" jdbcType="INTEGER" property="petcId" />
+    <result column="pet_name" jdbcType="VARCHAR" property="petName" />
+    <result column="pet_date" jdbcType="DATE" property="petDate" />
+    <result column="pet_birth" jdbcType="DATE" property="petBirth" />
+    <result column="pet_gender" jdbcType="INTEGER" property="petGender" />
+    <result column="pet_color" jdbcType="VARCHAR" property="petColor" />
+    <result column="pet_photo" jdbcType="VARCHAR" property="petPhoto" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    pet_id, m_id, petc_id, pet_name, pet_date, pet_birth, pet_gender, pet_color, pet_photo
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pet
+    where pet_id = #{petId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectSelective" parameterType="cn.ctide.pet.Model.Pet" resultMap="BaseResultMap">
+	  select 
+	    <include refid="Base_Column_List" />
+	    from pet
+	  <where>
+	  	<trim prefixOverrides="AND|OR">
+			<if test="petId != null">
+			  AND pet_id = #{petId,jdbcType=INTEGER}
+			</if>
+			<if test="mId != null">
+			  AND m_id = #{mId,jdbcType=INTEGER}
+			</if>
+			<if test="petcId != null">
+			  AND petc_id = #{petcId,jdbcType=INTEGER}
+			</if>
+			<if test="petName != null">
+			  AND pet_name = #{petName,jdbcType=VARCHAR}
+			</if>
+			<if test="petDate != null">
+			  AND pet_date = #{petDate,jdbcType=DATE}
+			</if>
+			<if test="petBirth != null">
+			  AND pet_birth = #{petBirth,jdbcType=DATE}
+			</if>
+			<if test="petGender != null">
+			  AND pet_gender = #{petGender,jdbcType=INTEGER}
+			</if>
+			<if test="petColor != null">
+			  AND pet_color = #{petColor,jdbcType=VARCHAR}
+			</if>
+			<if test="petPhoto != null">
+			  AND pet_photo = #{petPhoto,jdbcType=VARCHAR}
+			</if>
+	  	</trim>
+	  </where>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from pet
+    where pet_id = #{petId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.ctide.pet.Model.Pet">
+    insert into pet (pet_id, m_id, petc_id, 
+      pet_name, pet_date, pet_birth, 
+      pet_gender, pet_color, pet_photo
+      )
+    values (#{petId,jdbcType=INTEGER}, #{mId,jdbcType=INTEGER}, #{petcId,jdbcType=INTEGER}, 
+      #{petName,jdbcType=VARCHAR}, #{petDate,jdbcType=DATE}, #{petBirth,jdbcType=DATE}, 
+      #{petGender,jdbcType=INTEGER}, #{petColor,jdbcType=VARCHAR}, #{petPhoto,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.ctide.pet.Model.Pet">
+    insert into pet
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="petId != null">
+        pet_id,
+      </if>
+      <if test="mId != null">
+        m_id,
+      </if>
+      <if test="petcId != null">
+        petc_id,
+      </if>
+      <if test="petName != null">
+        pet_name,
+      </if>
+      <if test="petDate != null">
+        pet_date,
+      </if>
+      <if test="petBirth != null">
+        pet_birth,
+      </if>
+      <if test="petGender != null">
+        pet_gender,
+      </if>
+      <if test="petColor != null">
+        pet_color,
+      </if>
+      <if test="petPhoto != null">
+        pet_photo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="petId != null">
+        #{petId,jdbcType=INTEGER},
+      </if>
+      <if test="mId != null">
+        #{mId,jdbcType=INTEGER},
+      </if>
+      <if test="petcId != null">
+        #{petcId,jdbcType=INTEGER},
+      </if>
+      <if test="petName != null">
+        #{petName,jdbcType=VARCHAR},
+      </if>
+      <if test="petDate != null">
+        #{petDate,jdbcType=DATE},
+      </if>
+      <if test="petBirth != null">
+        #{petBirth,jdbcType=DATE},
+      </if>
+      <if test="petGender != null">
+        #{petGender,jdbcType=INTEGER},
+      </if>
+      <if test="petColor != null">
+        #{petColor,jdbcType=VARCHAR},
+      </if>
+      <if test="petPhoto != null">
+        #{petPhoto,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.ctide.pet.Model.Pet">
+    update pet
+    <set>
+      <if test="mId != null">
+        m_id = #{mId,jdbcType=INTEGER},
+      </if>
+      <if test="petcId != null">
+        petc_id = #{petcId,jdbcType=INTEGER},
+      </if>
+      <if test="petName != null">
+        pet_name = #{petName,jdbcType=VARCHAR},
+      </if>
+      <if test="petDate != null">
+        pet_date = #{petDate,jdbcType=DATE},
+      </if>
+      <if test="petBirth != null">
+        pet_birth = #{petBirth,jdbcType=DATE},
+      </if>
+      <if test="petGender != null">
+        pet_gender = #{petGender,jdbcType=INTEGER},
+      </if>
+      <if test="petColor != null">
+        pet_color = #{petColor,jdbcType=VARCHAR},
+      </if>
+      <if test="petPhoto != null">
+        pet_photo = #{petPhoto,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where pet_id = #{petId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.ctide.pet.Model.Pet">
+    update pet
+    set m_id = #{mId,jdbcType=INTEGER},
+      petc_id = #{petcId,jdbcType=INTEGER},
+      pet_name = #{petName,jdbcType=VARCHAR},
+      pet_date = #{petDate,jdbcType=DATE},
+      pet_birth = #{petBirth,jdbcType=DATE},
+      pet_gender = #{petGender,jdbcType=INTEGER},
+      pet_color = #{petColor,jdbcType=VARCHAR},
+      pet_photo = #{petPhoto,jdbcType=VARCHAR}
+    where pet_id = #{petId,jdbcType=INTEGER}
+  </update>
+</mapper>

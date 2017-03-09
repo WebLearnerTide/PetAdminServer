@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ctide.pet.Dao.PetclassMapper">
+  <resultMap id="BaseResultMap" type="cn.ctide.pet.Model.Petclass">
+    <id column="petc_id" jdbcType="INTEGER" property="petcId" />
+    <result column="petc_name" jdbcType="VARCHAR" property="petcName" />
+    <result column="petc_build" jdbcType="INTEGER" property="petcBuild" />
+    <result column="petc_build_name" jdbcType="VARCHAR" property="petcBuildName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    petc_id, petc_name, petc_build,petc_build_name
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from petclass
+    where petc_id = #{petcId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectSelective" parameterType="cn.ctide.pet.Model.Petclass" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from petclass
+    <where>
+    	<trim prefixOverrides="AND|OR">
+		  <if test="petcId != null">
+	        AND petc_id = #{petcId,jdbcType=INTEGER}
+	      </if>
+	      <if test="petcName != null">
+	        AND petc_name = #{petcName,jdbcType=VARCHAR}
+	      </if>
+	      <if test="petcBuildName != null">
+	        AND petc_build_name = #{petcBuildName,jdbcType=VARCHAR}
+	      </if>
+	      <if test="petcBuild != null">
+	        AND petc_build = #{petcBuild,jdbcType=INTEGER}
+	      </if>
+    	</trim>
+    </where>
+  
+  </select>
+  
+  <!-- 获取宠物类型 -->
+  <select id="getPetBuild" resultMap="BaseResultMap">
+  	select distinct petc_build, petc_build_name
+  	from petclass
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from petclass
+    where petc_id = #{petcId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.ctide.pet.Model.Petclass">
+    insert into petclass (petc_id, petc_name, petc_build,petc_build_name
+      )
+    values (#{petcId,jdbcType=INTEGER}, #{petcName,jdbcType=VARCHAR}, #{petcBuild,jdbcType=INTEGER}, #{petcBuildName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.ctide.pet.Model.Petclass">
+    insert into petclass
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="petcId != null">
+        petc_id,
+      </if>
+      <if test="petcName != null">
+        petc_name,
+      </if>
+      <if test="petcBuild != null">
+        petc_build,
+      </if>
+      <if test="petcBuildName != null">
+        petc_build_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="petcId != null">
+        #{petcId,jdbcType=INTEGER},
+      </if>
+      <if test="petcName != null">
+        #{petcName,jdbcType=VARCHAR},
+      </if>
+      <if test="petcBuild != null">
+        #{petcBuild,jdbcType=INTEGER},
+      </if>
+      <if test="petcBuildName != null">
+        #{petcBuildName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.ctide.pet.Model.Petclass">
+    update petclass
+    <set>
+      <if test="petcName != null">
+        petc_name = #{petcName,jdbcType=VARCHAR},
+      </if>
+      <if test="petcBuild != null">
+        petc_build = #{petcBuild,jdbcType=INTEGER},
+      </if>
+      <if test="petcBuildName != null">
+        petc_build_name = #{petcBuildName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where petc_id = #{petcId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.ctide.pet.Model.Petclass">
+    update petclass
+    set petc_name = #{petcName,jdbcType=VARCHAR},
+      petc_build = #{petcBuild,jdbcType=INTEGER},
+      petc_build_name = #{petcBuildName,jdbcType=VARCHAR}
+    where petc_id = #{petcId,jdbcType=INTEGER}
+  </update>
+</mapper>

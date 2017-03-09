@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.ctide.pet.Dao.MasterMapper">  <!-- 通过namespace一一对应 -->
+
+  <resultMap id="BaseResultMap" type="cn.ctide.pet.Model.Master">
+    <id column="m_id" jdbcType="INTEGER" property="mId" />
+    <result column="m_name" jdbcType="VARCHAR" property="mName" />
+    <result column="m_score" jdbcType="INTEGER" property="mScore" />
+    <result column="m_pwd" jdbcType="VARCHAR" property="mPwd" />
+    <result column="m_email" jdbcType="VARCHAR" property="mEmail" />
+    <result column="m_date" jdbcType="DATE" property="mDate" />
+    <result column="m_signtimes" jdbcType="INTEGER" property="mSigntimes" />
+    <result column="m_level" jdbcType="INTEGER" property="mLevel" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    m_id, m_name, m_score, m_pwd, m_email, m_date, m_signtimes, m_level
+  </sql>
+  
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from master
+    where m_id = #{mId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectSelective" parameterType="cn.ctide.pet.Model.Master" resultMap="BaseResultMap">
+	  select 
+	    <include refid="Base_Column_List" />
+	    from master
+	    <where>
+	    	<trim prefixOverrides="AND|OR" >
+    		  <if test="mId != null">
+		        AND m_id=#{mId,jdbcType=INTEGER}
+		      </if>
+		      <if test="mName != null">
+		        AND m_name=#{mName,jdbcType=VARCHAR}
+		      </if>
+		      <if test="mScore != null">
+		        AND m_score=#{mScore,jdbcType=INTEGER}
+		      </if>
+		      <if test="mPwd != null">
+		        AND m_pwd=#{mPwd,jdbcType=VARCHAR}
+		      </if>
+		      <if test="mEmail != null">
+		        AND m_email=#{mEmail,jdbcType=VARCHAR}
+		      </if>
+		      <if test="mDate != null">
+		        AND m_date=#{mDate,jdbcType=DATE}
+		      </if>
+		      <if test="mSigntimes != null">
+		        AND m_signtimes=#{mSigntimes,jdbcType=INTEGER}
+		      </if>
+		      <if test="mLevel != null">
+		        AND m_level=#{mLevel,jdbcType=INTEGER}
+		      </if>
+	    	</trim>
+	    </where>
+  </select>
+  
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from master
+    where m_id = #{mId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.ctide.pet.Model.Master">
+    insert into master (m_id, m_name, m_score, 
+      m_pwd, m_email, m_date, m_signtimes, 
+      m_level)
+    values (#{mId,jdbcType=INTEGER}, #{mName,jdbcType=VARCHAR}, #{mScore,jdbcType=INTEGER}, 
+      #{mPwd,jdbcType=VARCHAR}, #{mEmail,jdbcType=VARCHAR}, #{mDate,jdbcType=DATE}, #{mSigntimes,jdbcType=INTEGER}, 
+      #{mLevel,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.ctide.pet.Model.Master">
+    insert into master
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="mId != null">
+        m_id,
+      </if>
+      <if test="mName != null">
+        m_name,
+      </if>
+      <if test="mScore != null">
+        m_score,
+      </if>
+      <if test="mPwd != null">
+        m_pwd,
+      </if>
+      <if test="mEmail != null">
+        m_email,
+      </if>
+      <if test="mDate != null">
+        m_date,
+      </if>
+      <if test="mSigntimes != null">
+        m_signtimes,
+      </if>
+      <if test="mLevel != null">
+        m_level,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="mId != null">
+        #{mId,jdbcType=INTEGER},
+      </if>
+      <if test="mName != null">
+        #{mName,jdbcType=VARCHAR},
+      </if>
+      <if test="mScore != null">
+        #{mScore,jdbcType=INTEGER},
+      </if>
+      <if test="mPwd != null">
+        #{mPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="mEmail != null">
+        #{mEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="mDate != null">
+        #{mDate,jdbcType=DATE},
+      </if>
+      <if test="mSigntimes != null">
+        #{mSigntimes,jdbcType=INTEGER},
+      </if>
+      <if test="mLevel != null">
+        #{mLevel,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.ctide.pet.Model.Master">
+    update master
+    <set>
+      <if test="mName != null">
+        m_name = #{mName,jdbcType=VARCHAR},
+      </if>
+      <if test="mScore != null">
+        m_score = #{mScore,jdbcType=INTEGER},
+      </if>
+      <if test="mPwd != null">
+        m_pwd = #{mPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="mEmail != null">
+        m_email = #{mEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="mDate != null">
+        m_date = #{mDate,jdbcType=DATE},
+      </if>
+      <if test="mSigntimes != null">
+        m_signtimes = #{mSigntimes,jdbcType=INTEGER},
+      </if>
+      <if test="mLevel != null">
+        m_level = #{mLevel,jdbcType=INTEGER},
+      </if>
+    </set>
+    where m_id = #{mId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.ctide.pet.Model.Master">
+    update master
+    set m_name = #{mName,jdbcType=VARCHAR},
+      m_score = #{mScore,jdbcType=INTEGER},
+      m_pwd = #{mPwd,jdbcType=VARCHAR},
+      m_email = #{mEmail,jdbcType=VARCHAR},
+      m_date = #{mDate,jdbcType=DATE},
+      m_signtimes = #{mSigntimes,jdbcType=INTEGER},
+      m_level = #{mLevel,jdbcType=INTEGER}
+    where m_id = #{mId,jdbcType=INTEGER}
+  </update>
+</mapper>
