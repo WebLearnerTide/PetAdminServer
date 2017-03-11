@@ -40,7 +40,7 @@ public class Master {
     }
 
     public Integer getmScore() {
-        return null==mScore?0:mScore;
+        return mScore;
     }
 
     public void setmScore(Integer mScore) {

@@ -22,6 +22,7 @@ public class UserController {
 	public Map login(Master master) {
 		Map result = new HashMap();
 		try {
+			master.setmScore(null);
 			Master m = masterService.getMasterByMaster(master);
 			result.put("success", true);
 			result.put("msg", "登录成功");
