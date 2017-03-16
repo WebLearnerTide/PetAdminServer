@@ -4,4 +4,31 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
     <import resource="spring-mybatis.xml"/>
+    
+    <bean id="emailSender" class="cn.ctide.pet.util.EmailSender">
+    	<property name="host" >  
+        <value>smtp.ym.163.com</value>  
+       </property>  
+       <property name="port" >  
+        <value type="java.lang.Integer">25</value>  
+       </property>  
+       <property name="protocol">  
+        <value>smtp</value>  
+       </property>  
+       <property name="username">  
+        <value>no-reply@ctide.cn</value>  
+       </property>  
+       <property name="password">  
+        <value>no_reply</value>  
+       </property>  
+       <!-- SMTP服务器验证 -->  
+       <property name="javaMailProperties">  
+           <props>  
+               <!-- 验证身份 -->  
+               <prop key="mail.smtps.auth">true</prop>  
+               <!-- <prop key="mail.smtp.ssl.enable">true</prop>   -->
+               <prop key="mail.transport.protocol">smtp</prop>  
+          </props>  
+       </property>  
+    </bean>
 </beans>

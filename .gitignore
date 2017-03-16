@@ -17,3 +17,6 @@ target/*
 
 # backup file
 *.bak
+
+.idea
+*.iml

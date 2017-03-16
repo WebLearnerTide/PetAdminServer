@@ -56,7 +56,26 @@ public class MasterServiceImpl implements MasterService {
 		}
 		return master;
 	}
-	
-	
+
+	@Override
+	public Master getByEmail(String email) throws Exception {
+		Master master = null;
+		try {
+			master = new Master();
+			master.setmEmail(email);
+			List<Master> list = masterMapper.selectSelective(master);
+			if (null==list || list.size()==0) {
+				throw new Exception("用户不存在");
+			}
+			if (list.size()!=1) {
+				throw new Exception("邮箱不唯一");
+			}
+			master = list.get(0);
+			return master;
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+
 
 }

@@ -11,4 +11,6 @@ public interface MasterService {
 
 	Master getByPrimaryKey(Integer mId) throws Exception;
 
+	Master getByEmail(String email) throws Exception;
+
 } 
