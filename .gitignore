@@ -13,10 +13,10 @@ hs_err_pid*
 
 # target
 target/
-target/*
 
 # backup file
 *.bak
 
 .idea
 *.iml
+gen/

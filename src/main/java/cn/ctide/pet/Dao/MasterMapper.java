@@ -3,6 +3,7 @@ package cn.ctide.pet.Dao;
 import java.util.List;
 
 import cn.ctide.pet.Model.Master;
+import org.apache.ibatis.annotations.Param;
 
 public interface MasterMapper {
     int deleteByPrimaryKey(Integer mId);
@@ -19,4 +20,6 @@ public interface MasterMapper {
     int updateByPrimaryKeySelective(Master record);
 
     int updateByPrimaryKey(Master record);
+
+    Master callSign(@Param("mId") Integer mId);
 }

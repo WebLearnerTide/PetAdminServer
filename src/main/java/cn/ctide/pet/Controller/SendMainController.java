@@ -12,14 +12,16 @@ import cn.ctide.pet.Model.Master;
 import cn.ctide.pet.Service.MasterService;
 import cn.ctide.pet.util.EmailSender;
 
+import javax.annotation.Resource;
+
 @Controller
 @RequestMapping("/sendMail/")
 public class SendMainController {
 	
-	@Autowired
+	@Resource
 	private EmailSender sender;
 
-	@Autowired
+	@Resource
     private MasterService masterService;
 	
 	@RequestMapping("reset")

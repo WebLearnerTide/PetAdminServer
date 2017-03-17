@@ -2,23 +2,23 @@ package cn.ctide.pet.Service.impl;
 
 import java.util.List;
 
+import cn.ctide.pet.Model.PetClass;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import cn.ctide.pet.Dao.PetclassMapper;
-import cn.ctide.pet.Model.Petclass;
-import cn.ctide.pet.Service.PetclassService;
+import cn.ctide.pet.Dao.PetClassMapper;
+import cn.ctide.pet.Service.PetClassService;
 
 @Service("petclassService")
-public class PetclassServiceImpl implements PetclassService {
+public class PetClassServiceImpl implements PetClassService {
 	@Autowired
-	private PetclassMapper petclassMapper;
+	private PetClassMapper petClassMapper;
 
 	@Override
-	public List<Petclass> getPetclassList(Petclass petclass) throws Exception{
-		List<Petclass> list = null;
+	public List<PetClass> getPetClassList(PetClass petClass) throws Exception{
+		List<PetClass> list = null;
 		try {
-			list = petclassMapper.selectSelective(petclass);
+			list = petClassMapper.selectSelective(petClass);
 			if (null==list || list.size()==0) {
 				throw new Exception("种类不存在");
 			}
@@ -29,10 +29,10 @@ public class PetclassServiceImpl implements PetclassService {
 	}
 
 	@Override
-	public List<Petclass> getBuilds() throws Exception {
-		List<Petclass> list = null;
+	public List<PetClass> getBuilds() throws Exception {
+		List<PetClass> list = null;
 		try {
-			list = petclassMapper.getPetBuild();
+			list = petClassMapper.getPetBuild();
 			if (null==list || list.size()==0) {
 				throw new Exception("获取体型失败");
 			}

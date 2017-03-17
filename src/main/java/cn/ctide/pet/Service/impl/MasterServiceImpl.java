@@ -77,5 +77,11 @@ public class MasterServiceImpl implements MasterService {
 		}
 	}
 
+	@Override
+	public Master updateSign(Integer mId) {
+		masterMapper.callSign(mId);
+		return masterMapper.selectByPrimaryKey(mId);
+	}
+
 
 }

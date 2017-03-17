@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.ctide.pet.Dao.PostClassMapper" >
+  <resultMap id="BaseResultMap" type="cn.ctide.pet.Model.PostClass" >
+    <id column="pc_id" property="pcId" jdbcType="INTEGER" />
+    <result column="pc_name" property="pcName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    pc_id, pc_name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from postclass
+    where pc_id = #{pcId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from postclass
+    where pc_id = #{pcId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.ctide.pet.Model.PostClass" >
+    insert into postclass (pc_id, pc_name)
+    values (#{pcId,jdbcType=INTEGER}, #{pcName,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.ctide.pet.Model.PostClass" >
+    insert into postclass
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pcId != null" >
+        pc_id,
+      </if>
+      <if test="pcName != null" >
+        pc_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pcId != null" >
+        #{pcId,jdbcType=INTEGER},
+      </if>
+      <if test="pcName != null" >
+        #{pcName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.ctide.pet.Model.PostClass" >
+    update postclass
+    <set >
+      <if test="pcName != null" >
+        pc_name = #{pcName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where pc_id = #{pcId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.ctide.pet.Model.PostClass" >
+    update postclass
+    set pc_name = #{pcName,jdbcType=VARCHAR}
+    where pc_id = #{pcId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -45,7 +45,7 @@
                <!--enableUpdateByExample="false"/>-->
         <!--<table tableName="im_login_log" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
                <!--enableUpdateByExample="false"/>-->
-        <table tableName="petclass" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+        <table tableName="petClass" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                enableUpdateByExample="false"/>
     </context>
 </generatorConfiguration>

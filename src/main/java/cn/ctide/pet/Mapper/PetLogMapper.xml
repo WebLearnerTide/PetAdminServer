@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.ctide.pet.Dao.PetLogMapper" >
+  <resultMap id="BaseResultMap" type="cn.ctide.pet.Model.PetLog" >
+    <id column="plog_code" property="plogCode" jdbcType="VARCHAR" />
+    <result column="pet_id" property="petId" jdbcType="INTEGER" />
+    <result column="plog_title" property="plogTitle" jdbcType="VARCHAR" />
+    <result column="plog_content" property="plogContent" jdbcType="VARCHAR" />
+    <result column="plog_time" property="plogTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    plog_code, pet_id, plog_title, plog_content, plog_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from petlog
+    where plog_code = #{plogCode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from petlog
+    where plog_code = #{plogCode,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="cn.ctide.pet.Model.PetLog" >
+    insert into petlog (plog_code, pet_id, plog_title, 
+      plog_content, plog_time)
+    values (#{plogCode,jdbcType=VARCHAR}, #{petId,jdbcType=INTEGER}, #{plogTitle,jdbcType=VARCHAR}, 
+      #{plogContent,jdbcType=VARCHAR}, #{plogTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.ctide.pet.Model.PetLog" >
+    insert into petlog
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="plogCode != null" >
+        plog_code,
+      </if>
+      <if test="petId != null" >
+        pet_id,
+      </if>
+      <if test="plogTitle != null" >
+        plog_title,
+      </if>
+      <if test="plogContent != null" >
+        plog_content,
+      </if>
+      <if test="plogTime != null" >
+        plog_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="plogCode != null" >
+        #{plogCode,jdbcType=VARCHAR},
+      </if>
+      <if test="petId != null" >
+        #{petId,jdbcType=INTEGER},
+      </if>
+      <if test="plogTitle != null" >
+        #{plogTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="plogContent != null" >
+        #{plogContent,jdbcType=VARCHAR},
+      </if>
+      <if test="plogTime != null" >
+        #{plogTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.ctide.pet.Model.PetLog" >
+    update petlog
+    <set >
+      <if test="petId != null" >
+        pet_id = #{petId,jdbcType=INTEGER},
+      </if>
+      <if test="plogTitle != null" >
+        plog_title = #{plogTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="plogContent != null" >
+        plog_content = #{plogContent,jdbcType=VARCHAR},
+      </if>
+      <if test="plogTime != null" >
+        plog_time = #{plogTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where plog_code = #{plogCode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.ctide.pet.Model.PetLog" >
+    update petlog
+    set pet_id = #{petId,jdbcType=INTEGER},
+      plog_title = #{plogTitle,jdbcType=VARCHAR},
+      plog_content = #{plogContent,jdbcType=VARCHAR},
+      plog_time = #{plogTime,jdbcType=TIMESTAMP}
+    where plog_code = #{plogCode,jdbcType=VARCHAR}
+  </update>
+</mapper>

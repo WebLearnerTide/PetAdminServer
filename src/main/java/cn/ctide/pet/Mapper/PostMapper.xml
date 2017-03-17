@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.ctide.pet.Dao.PostMapper" >
+  <resultMap id="BaseResultMap" type="cn.ctide.pet.Model.Post" >
+    <id column="p_id" property="pId" jdbcType="INTEGER" />
+    <result column="pc_id" property="pcId" jdbcType="INTEGER" />
+    <result column="m_id" property="mId" jdbcType="INTEGER" />
+    <result column="p_title" property="pTitle" jdbcType="VARCHAR" />
+    <result column="p_content" property="pContent" jdbcType="VARCHAR" />
+    <result column="p_time" property="pTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <resultMap id="hotMap" type="HashMap" >
+    <id column="p_id" property="pId" jdbcType="INTEGER" />
+    <result column="pc_id" property="pcId" jdbcType="INTEGER" />
+    <result column="m_id" property="mId" jdbcType="INTEGER" />
+    <result column="p_title" property="pTitle" jdbcType="VARCHAR" />
+    <result column="p_content" property="pContent" jdbcType="VARCHAR" />
+    <result column="p_time" property="pTime" jdbcType="TIMESTAMP" />
+    <result column="m_name" property="mName" jdbcType="VARCHAR" />
+    <result column="_count" property="count" jdbcType="INTEGER" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    p_id, pc_id, m_id, p_title, p_content, p_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from post
+    where p_id = #{pId,jdbcType=INTEGER}
+  </select>
+  <select id="getHotPost" resultMap="hotMap">
+    select
+    a.*,
+    c.m_name,
+    count(b.r_id) as _count
+    from post a, reply b, master c
+    where
+    a.p_id=b.p_id
+    and a.m_id!=b.m_id
+    <![CDATA[ AND a.p_time<=#{pTime} ]]>
+    and c.m_id=a.m_id GROUP BY a.p_id order by _count DESC
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from post
+    where p_id = #{pId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.ctide.pet.Model.Post" >
+    insert into post (p_id, pc_id, m_id, 
+      p_title, p_content, p_time
+      )
+    values (#{pId,jdbcType=INTEGER}, #{pcId,jdbcType=INTEGER}, #{mId,jdbcType=INTEGER}, 
+      #{pTitle,jdbcType=VARCHAR}, #{pContent,jdbcType=VARCHAR}, #{pTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.ctide.pet.Model.Post" >
+    insert into post
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="pId != null" >
+        p_id,
+      </if>
+      <if test="pcId != null" >
+        pc_id,
+      </if>
+      <if test="mId != null" >
+        m_id,
+      </if>
+      <if test="pTitle != null" >
+        p_title,
+      </if>
+      <if test="pContent != null" >
+        p_content,
+      </if>
+      <if test="pTime != null" >
+        p_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="pId != null" >
+        #{pId,jdbcType=INTEGER},
+      </if>
+      <if test="pcId != null" >
+        #{pcId,jdbcType=INTEGER},
+      </if>
+      <if test="mId != null" >
+        #{mId,jdbcType=INTEGER},
+      </if>
+      <if test="pTitle != null" >
+        #{pTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="pContent != null" >
+        #{pContent,jdbcType=VARCHAR},
+      </if>
+      <if test="pTime != null" >
+        #{pTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.ctide.pet.Model.Post" >
+    update post
+    <set >
+      <if test="pcId != null" >
+        pc_id = #{pcId,jdbcType=INTEGER},
+      </if>
+      <if test="mId != null" >
+        m_id = #{mId,jdbcType=INTEGER},
+      </if>
+      <if test="pTitle != null" >
+        p_title = #{pTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="pContent != null" >
+        p_content = #{pContent,jdbcType=VARCHAR},
+      </if>
+      <if test="pTime != null" >
+        p_time = #{pTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where p_id = #{pId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.ctide.pet.Model.Post" >
+    update post
+    set pc_id = #{pcId,jdbcType=INTEGER},
+      m_id = #{mId,jdbcType=INTEGER},
+      p_title = #{pTitle,jdbcType=VARCHAR},
+      p_content = #{pContent,jdbcType=VARCHAR},
+      p_time = #{pTime,jdbcType=TIMESTAMP}
+    where p_id = #{pId,jdbcType=INTEGER}
+  </update>
+</mapper>

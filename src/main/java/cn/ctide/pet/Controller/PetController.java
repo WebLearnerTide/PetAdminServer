@@ -13,11 +13,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import cn.ctide.pet.Model.Pet;
 import cn.ctide.pet.Service.PetService;
 
+import javax.annotation.Resource;
+
 @Controller
 @RequestMapping("/pet")
 public class PetController {
 
-	@Autowired
+	@Resource
 	private PetService petService;
 	
 	@RequestMapping("/addpet")

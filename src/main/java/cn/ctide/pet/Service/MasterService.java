@@ -13,4 +13,5 @@ public interface MasterService {
 
 	Master getByEmail(String email) throws Exception;
 
+	Master updateSign(Integer mId);
 } 

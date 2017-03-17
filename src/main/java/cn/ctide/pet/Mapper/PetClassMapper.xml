@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.ctide.pet.Dao.PetclassMapper">
-  <resultMap id="BaseResultMap" type="cn.ctide.pet.Model.Petclass">
+<mapper namespace="cn.ctide.pet.Dao.PetClassMapper">
+  <resultMap id="BaseResultMap" type="cn.ctide.pet.Model.PetClass">
     <id column="petc_id" jdbcType="INTEGER" property="petcId" />
     <result column="petc_name" jdbcType="VARCHAR" property="petcName" />
     <result column="petc_build" jdbcType="INTEGER" property="petcBuild" />
@@ -13,14 +13,14 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from petclass
+    from petClass
     where petc_id = #{petcId,jdbcType=INTEGER}
   </select>
   
-  <select id="selectSelective" parameterType="cn.ctide.pet.Model.Petclass" resultMap="BaseResultMap">
+  <select id="selectSelective" parameterType="cn.ctide.pet.Model.PetClass" resultMap="BaseResultMap">
   	select 
     <include refid="Base_Column_List" />
-    from petclass
+    from petClass
     <where>
     	<trim prefixOverrides="AND|OR">
 		  <if test="petcId != null">
@@ -43,21 +43,21 @@
   <!-- 获取宠物类型 -->
   <select id="getPetBuild" resultMap="BaseResultMap">
   	select distinct petc_build, petc_build_name
-  	from petclass
+  	from petClass
   </select>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from petclass
+    delete from petClass
     where petc_id = #{petcId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="cn.ctide.pet.Model.Petclass">
-    insert into petclass (petc_id, petc_name, petc_build,petc_build_name
+  <insert id="insert" parameterType="cn.ctide.pet.Model.PetClass">
+    insert into petClass (petc_id, petc_name, petc_build,petc_build_name
       )
     values (#{petcId,jdbcType=INTEGER}, #{petcName,jdbcType=VARCHAR}, #{petcBuild,jdbcType=INTEGER}, #{petcBuildName,jdbcType=VARCHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="cn.ctide.pet.Model.Petclass">
-    insert into petclass
+  <insert id="insertSelective" parameterType="cn.ctide.pet.Model.PetClass">
+    insert into petClass
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="petcId != null">
         petc_id,
@@ -87,8 +87,8 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.ctide.pet.Model.Petclass">
-    update petclass
+  <update id="updateByPrimaryKeySelective" parameterType="cn.ctide.pet.Model.PetClass">
+    update petClass
     <set>
       <if test="petcName != null">
         petc_name = #{petcName,jdbcType=VARCHAR},
@@ -102,8 +102,8 @@
     </set>
     where petc_id = #{petcId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="cn.ctide.pet.Model.Petclass">
-    update petclass
+  <update id="updateByPrimaryKey" parameterType="cn.ctide.pet.Model.PetClass">
+    update petClass
     set petc_name = #{petcName,jdbcType=VARCHAR},
       petc_build = #{petcBuild,jdbcType=INTEGER},
       petc_build_name = #{petcBuildName,jdbcType=VARCHAR}

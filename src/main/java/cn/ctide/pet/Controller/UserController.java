@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import cn.ctide.pet.Model.Master;
 import cn.ctide.pet.Service.MasterService;
 
+import javax.annotation.Resource;
+
 @Controller
 @RequestMapping("/user")
 public class UserController {
-	@Autowired
+	@Resource
 	private MasterService masterService;
 	
 	@RequestMapping("/login")
@@ -64,4 +66,13 @@ public class UserController {
 		return result;
 	}
 
+	@RequestMapping("/sign")
+	@ResponseBody
+	public Map doSign(Integer mId) {
+		Map result = new HashMap();
+		Master master = masterService.updateSign(mId);
+		result.put("success", true);
+		result.put("master", master);
+		return result;
+	}
 }

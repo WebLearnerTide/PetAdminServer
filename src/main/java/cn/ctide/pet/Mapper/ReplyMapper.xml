@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.ctide.pet.Dao.ReplyMapper" >
+  <resultMap id="BaseResultMap" type="cn.ctide.pet.Model.Reply" >
+    <id column="r_id" property="rId" jdbcType="INTEGER" />
+    <result column="m_id" property="mId" jdbcType="INTEGER" />
+    <result column="p_id" property="pId" jdbcType="INTEGER" />
+    <result column="r_content" property="rContent" jdbcType="VARCHAR" />
+    <result column="r_time" property="rTime" jdbcType="TIMESTAMP" />
+    <result column="r_ided" property="rIded" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    r_id, m_id, p_id, r_content, r_time, r_ided
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from reply
+    where r_id = #{rId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from reply
+    where r_id = #{rId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.ctide.pet.Model.Reply" >
+    insert into reply (r_id, m_id, p_id, 
+      r_content, r_time, r_ided
+      )
+    values (#{rId,jdbcType=INTEGER}, #{mId,jdbcType=INTEGER}, #{pId,jdbcType=INTEGER}, 
+      #{rContent,jdbcType=VARCHAR}, #{rTime,jdbcType=TIMESTAMP}, #{rIded,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.ctide.pet.Model.Reply" >
+    insert into reply
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="rId != null" >
+        r_id,
+      </if>
+      <if test="mId != null" >
+        m_id,
+      </if>
+      <if test="pId != null" >
+        p_id,
+      </if>
+      <if test="rContent != null" >
+        r_content,
+      </if>
+      <if test="rTime != null" >
+        r_time,
+      </if>
+      <if test="rIded != null" >
+        r_ided,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="rId != null" >
+        #{rId,jdbcType=INTEGER},
+      </if>
+      <if test="mId != null" >
+        #{mId,jdbcType=INTEGER},
+      </if>
+      <if test="pId != null" >
+        #{pId,jdbcType=INTEGER},
+      </if>
+      <if test="rContent != null" >
+        #{rContent,jdbcType=VARCHAR},
+      </if>
+      <if test="rTime != null" >
+        #{rTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rIded != null" >
+        #{rIded,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.ctide.pet.Model.Reply" >
+    update reply
+    <set >
+      <if test="mId != null" >
+        m_id = #{mId,jdbcType=INTEGER},
+      </if>
+      <if test="pId != null" >
+        p_id = #{pId,jdbcType=INTEGER},
+      </if>
+      <if test="rContent != null" >
+        r_content = #{rContent,jdbcType=VARCHAR},
+      </if>
+      <if test="rTime != null" >
+        r_time = #{rTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rIded != null" >
+        r_ided = #{rIded,jdbcType=INTEGER},
+      </if>
+    </set>
+    where r_id = #{rId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.ctide.pet.Model.Reply" >
+    update reply
+    set m_id = #{mId,jdbcType=INTEGER},
+      p_id = #{pId,jdbcType=INTEGER},
+      r_content = #{rContent,jdbcType=VARCHAR},
+      r_time = #{rTime,jdbcType=TIMESTAMP},
+      r_ided = #{rIded,jdbcType=INTEGER}
+    where r_id = #{rId,jdbcType=INTEGER}
+  </update>
+</mapper>

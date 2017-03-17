@@ -8,11 +8,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import cn.ctide.pet.Model.Master;
 import cn.ctide.pet.Service.MasterService;
 
+import javax.annotation.Resource;
+
 @Controller
 @RequestMapping("/")
 public class MainController {
 
-	@Autowired
+	@Resource
 	private MasterService masterService;
 	
 	@RequestMapping

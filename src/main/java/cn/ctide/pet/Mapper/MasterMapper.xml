@@ -57,8 +57,13 @@
 	    	</trim>
 	    </where>
   </select>
-  
-  
+  <select id="callSign" statementType="CALLABLE"  resultType="cn.ctide.pet.Model.Master">
+    {call sign(
+      #{mId, jdbcType=INTEGER, mode=IN}
+    )}
+  </select>
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from master
     where m_id = #{mId,jdbcType=INTEGER}

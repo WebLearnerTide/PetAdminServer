@@ -20,7 +20,7 @@
     <commons.pool.version>1.4</commons.pool.version>	<!-- 连接池 -->
     <commons.io.version>2.3</commons.io.version>
     <junit.version>4.12</junit.version>
-    <pagehelper.version>4.2.1</pagehelper.version>		<!-- mybatis数据库查询分页插件 -->
+    <pagehelper.version>5.0.0</pagehelper.version>		<!-- mybatis数据库查询分页插件 -->
   </properties>
   
   
@@ -178,7 +178,12 @@
 	    <groupId>javax.mail</groupId>  
 	    <artifactId>mail</artifactId>  
 	    <version>1.4.4</version>  
-	</dependency>  
+	</dependency>
+    <dependency>
+      <groupId>com.github.jsqlparser</groupId>
+      <artifactId>jsqlparser</artifactId>
+      <version>0.9.5</version>
+    </dependency>
   </dependencies>
   <build>
     <sourceDirectory>src/main/java</sourceDirectory>
