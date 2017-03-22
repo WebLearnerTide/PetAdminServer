@@ -13,14 +13,14 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from petClass
+    from petclass
     where petc_id = #{petcId,jdbcType=INTEGER}
   </select>
   
   <select id="selectSelective" parameterType="cn.ctide.pet.Model.PetClass" resultMap="BaseResultMap">
   	select 
     <include refid="Base_Column_List" />
-    from petClass
+    from petclass
     <where>
     	<trim prefixOverrides="AND|OR">
 		  <if test="petcId != null">
@@ -43,21 +43,21 @@
   <!-- 获取宠物类型 -->
   <select id="getPetBuild" resultMap="BaseResultMap">
   	select distinct petc_build, petc_build_name
-  	from petClass
+  	from petclass
   </select>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from petClass
+    delete from petclass
     where petc_id = #{petcId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.ctide.pet.Model.PetClass">
-    insert into petClass (petc_id, petc_name, petc_build,petc_build_name
+    insert into petclass (petc_id, petc_name, petc_build,petc_build_name
       )
     values (#{petcId,jdbcType=INTEGER}, #{petcName,jdbcType=VARCHAR}, #{petcBuild,jdbcType=INTEGER}, #{petcBuildName,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="cn.ctide.pet.Model.PetClass">
-    insert into petClass
+    insert into petclass
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="petcId != null">
         petc_id,
@@ -88,7 +88,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="cn.ctide.pet.Model.PetClass">
-    update petClass
+    update petclass
     <set>
       <if test="petcName != null">
         petc_name = #{petcName,jdbcType=VARCHAR},
@@ -103,7 +103,7 @@
     where petc_id = #{petcId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.ctide.pet.Model.PetClass">
-    update petClass
+    update petclass
     set petc_name = #{petcName,jdbcType=VARCHAR},
       petc_build = #{petcBuild,jdbcType=INTEGER},
       petc_build_name = #{petcBuildName,jdbcType=VARCHAR}

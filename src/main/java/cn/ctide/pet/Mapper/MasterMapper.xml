@@ -1,164 +1,202 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.ctide.pet.Dao.MasterMapper">  <!-- 通过namespace一一对应 -->
-
-  <resultMap id="BaseResultMap" type="cn.ctide.pet.Model.Master">
-    <id column="m_id" jdbcType="INTEGER" property="mId" />
-    <result column="m_name" jdbcType="VARCHAR" property="mName" />
-    <result column="m_score" jdbcType="INTEGER" property="mScore" />
-    <result column="m_pwd" jdbcType="VARCHAR" property="mPwd" />
-    <result column="m_email" jdbcType="VARCHAR" property="mEmail" />
-    <result column="m_date" jdbcType="DATE" property="mDate" />
-    <result column="m_signtimes" jdbcType="INTEGER" property="mSigntimes" />
-    <result column="m_level" jdbcType="INTEGER" property="mLevel" />
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.ctide.pet.Dao.MasterMapper" >
+  <resultMap id="BaseResultMap" type="cn.ctide.pet.Model.Master" >
+    <id column="m_id" property="mId" jdbcType="INTEGER" />
+    <result column="m_name" property="mName" jdbcType="VARCHAR" />
+    <result column="m_score" property="mScore" jdbcType="INTEGER" />
+    <result column="m_pwd" property="mPwd" jdbcType="VARCHAR" />
+    <result column="m_email" property="mEmail" jdbcType="VARCHAR" />
+    <result column="m_date" property="mDate" jdbcType="DATE" />
+    <result column="m_signtimes" property="mSigntimes" jdbcType="INTEGER" />
+    <result column="m_level" property="mLevel" jdbcType="INTEGER" />
+    <result column="qq_id" property="qqId" jdbcType="VARCHAR" />
+    <result column="weibo_id" property="weiboId" jdbcType="VARCHAR" />
+    <result column="weixin_id" property="weixinId" jdbcType="VARCHAR" />
   </resultMap>
-  
-  <sql id="Base_Column_List">
-    m_id, m_name, m_score, m_pwd, m_email, m_date, m_signtimes, m_level
+  <sql id="Base_Column_List" >
+    m_id, m_name, m_score, m_pwd, m_email, m_date, m_signtimes, m_level, qq_id, weibo_id, 
+    weixin_id
   </sql>
-  
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from master
     where m_id = #{mId,jdbcType=INTEGER}
   </select>
-  
+
   <select id="selectSelective" parameterType="cn.ctide.pet.Model.Master" resultMap="BaseResultMap">
-	  select 
-	    <include refid="Base_Column_List" />
-	    from master
-	    <where>
-	    	<trim prefixOverrides="AND|OR" >
-    		  <if test="mId != null">
-		        AND m_id=#{mId,jdbcType=INTEGER}
-		      </if>
-		      <if test="mName != null">
-		        AND m_name=#{mName,jdbcType=VARCHAR}
-		      </if>
-		      <if test="mScore != null">
-		        AND m_score=#{mScore,jdbcType=INTEGER}
-		      </if>
-		      <if test="mPwd != null">
-		        AND m_pwd=#{mPwd,jdbcType=VARCHAR}
-		      </if>
-		      <if test="mEmail != null">
-		        AND m_email=#{mEmail,jdbcType=VARCHAR}
-		      </if>
-		      <if test="mDate != null">
-		        AND m_date=#{mDate,jdbcType=DATE}
-		      </if>
-		      <if test="mSigntimes != null">
-		        AND m_signtimes=#{mSigntimes,jdbcType=INTEGER}
-		      </if>
-		      <if test="mLevel != null">
-		        AND m_level=#{mLevel,jdbcType=INTEGER}
-		      </if>
-	    	</trim>
-	    </where>
+    select
+    <include refid="Base_Column_List" />
+    from master
+    <where>
+      <trim prefixOverrides="AND|OR" >
+        <if test="mId != null">
+          AND m_id=#{mId,jdbcType=INTEGER}
+        </if>
+        <if test="mName != null">
+          AND m_name=#{mName,jdbcType=VARCHAR}
+        </if>
+        <if test="mScore != null">
+          AND m_score=#{mScore,jdbcType=INTEGER}
+        </if>
+        <if test="mPwd != null">
+          AND m_pwd=#{mPwd,jdbcType=VARCHAR}
+        </if>
+        <if test="mEmail != null">
+          AND m_email=#{mEmail,jdbcType=VARCHAR}
+        </if>
+        <if test="mDate != null">
+          AND m_date=#{mDate,jdbcType=DATE}
+        </if>
+        <if test="mSigntimes != null">
+          AND m_signtimes=#{mSigntimes,jdbcType=INTEGER}
+        </if>
+        <if test="mLevel != null">
+          AND m_level=#{mLevel,jdbcType=INTEGER}
+        </if>
+        <if test="qqId != null" >
+          AND qq_id = #{qqId, jdbcType=VARCHAR}
+        </if>
+        <if test="weiboId != null" >
+          AND weibo_id = #{weiboId, jdbcType=VARCHAR}
+        </if>
+        <if test="weixinId != null" >
+          AND weixin_id = #{weixinId, jdbcType=VARCHAR}
+        </if>
+      </trim>
+    </where>
   </select>
   <select id="callSign" statementType="CALLABLE"  resultType="cn.ctide.pet.Model.Master">
     {call sign(
-      #{mId, jdbcType=INTEGER, mode=IN}
+    #{mId, jdbcType=INTEGER, mode=IN}
     )}
   </select>
 
-
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from master
     where m_id = #{mId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="cn.ctide.pet.Model.Master">
+  <insert id="insert" parameterType="cn.ctide.pet.Model.Master" >
     insert into master (m_id, m_name, m_score, 
       m_pwd, m_email, m_date, m_signtimes, 
-      m_level)
+      m_level, qq_id, weibo_id, 
+      weixin_id)
     values (#{mId,jdbcType=INTEGER}, #{mName,jdbcType=VARCHAR}, #{mScore,jdbcType=INTEGER}, 
       #{mPwd,jdbcType=VARCHAR}, #{mEmail,jdbcType=VARCHAR}, #{mDate,jdbcType=DATE}, #{mSigntimes,jdbcType=INTEGER}, 
-      #{mLevel,jdbcType=INTEGER})
+      #{mLevel,jdbcType=INTEGER}, #{qqId,jdbcType=VARCHAR}, #{weiboId,jdbcType=VARCHAR}, 
+      #{weixinId,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="cn.ctide.pet.Model.Master">
+  <insert id="insertSelective" parameterType="cn.ctide.pet.Model.Master" >
     insert into master
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="mId != null">
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="mId != null" >
         m_id,
       </if>
-      <if test="mName != null">
+      <if test="mName != null" >
         m_name,
       </if>
-      <if test="mScore != null">
+      <if test="mScore != null" >
         m_score,
       </if>
-      <if test="mPwd != null">
+      <if test="mPwd != null" >
         m_pwd,
       </if>
-      <if test="mEmail != null">
+      <if test="mEmail != null" >
         m_email,
       </if>
-      <if test="mDate != null">
+      <if test="mDate != null" >
         m_date,
       </if>
-      <if test="mSigntimes != null">
+      <if test="mSigntimes != null" >
         m_signtimes,
       </if>
-      <if test="mLevel != null">
+      <if test="mLevel != null" >
         m_level,
       </if>
+      <if test="qqId != null" >
+        qq_id,
+      </if>
+      <if test="weiboId != null" >
+        weibo_id,
+      </if>
+      <if test="weixinId != null" >
+        weixin_id,
+      </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="mId != null">
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="mId != null" >
         #{mId,jdbcType=INTEGER},
       </if>
-      <if test="mName != null">
+      <if test="mName != null" >
         #{mName,jdbcType=VARCHAR},
       </if>
-      <if test="mScore != null">
+      <if test="mScore != null" >
         #{mScore,jdbcType=INTEGER},
       </if>
-      <if test="mPwd != null">
+      <if test="mPwd != null" >
         #{mPwd,jdbcType=VARCHAR},
       </if>
-      <if test="mEmail != null">
+      <if test="mEmail != null" >
         #{mEmail,jdbcType=VARCHAR},
       </if>
-      <if test="mDate != null">
+      <if test="mDate != null" >
         #{mDate,jdbcType=DATE},
       </if>
-      <if test="mSigntimes != null">
+      <if test="mSigntimes != null" >
         #{mSigntimes,jdbcType=INTEGER},
       </if>
-      <if test="mLevel != null">
+      <if test="mLevel != null" >
         #{mLevel,jdbcType=INTEGER},
+      </if>
+      <if test="qqId != null" >
+        #{qqId,jdbcType=VARCHAR},
+      </if>
+      <if test="weiboId != null" >
+        #{weiboId,jdbcType=VARCHAR},
+      </if>
+      <if test="weixinId != null" >
+        #{weixinId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.ctide.pet.Model.Master">
+  <update id="updateByPrimaryKeySelective" parameterType="cn.ctide.pet.Model.Master" >
     update master
-    <set>
-      <if test="mName != null">
+    <set >
+      <if test="mName != null" >
         m_name = #{mName,jdbcType=VARCHAR},
       </if>
-      <if test="mScore != null">
+      <if test="mScore != null" >
         m_score = #{mScore,jdbcType=INTEGER},
       </if>
-      <if test="mPwd != null">
+      <if test="mPwd != null" >
         m_pwd = #{mPwd,jdbcType=VARCHAR},
       </if>
-      <if test="mEmail != null">
+      <if test="mEmail != null" >
         m_email = #{mEmail,jdbcType=VARCHAR},
       </if>
-      <if test="mDate != null">
+      <if test="mDate != null" >
         m_date = #{mDate,jdbcType=DATE},
       </if>
-      <if test="mSigntimes != null">
+      <if test="mSigntimes != null" >
         m_signtimes = #{mSigntimes,jdbcType=INTEGER},
       </if>
-      <if test="mLevel != null">
+      <if test="mLevel != null" >
         m_level = #{mLevel,jdbcType=INTEGER},
+      </if>
+      <if test="qqId != null" >
+        qq_id = #{qqId,jdbcType=VARCHAR},
+      </if>
+      <if test="weiboId != null" >
+        weibo_id = #{weiboId,jdbcType=VARCHAR},
+      </if>
+      <if test="weixinId != null" >
+        weixin_id = #{weixinId,jdbcType=VARCHAR},
       </if>
     </set>
     where m_id = #{mId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="cn.ctide.pet.Model.Master">
+  <update id="updateByPrimaryKey" parameterType="cn.ctide.pet.Model.Master" >
     update master
     set m_name = #{mName,jdbcType=VARCHAR},
       m_score = #{mScore,jdbcType=INTEGER},
@@ -166,7 +204,10 @@
       m_email = #{mEmail,jdbcType=VARCHAR},
       m_date = #{mDate,jdbcType=DATE},
       m_signtimes = #{mSigntimes,jdbcType=INTEGER},
-      m_level = #{mLevel,jdbcType=INTEGER}
+      m_level = #{mLevel,jdbcType=INTEGER},
+      qq_id = #{qqId,jdbcType=VARCHAR},
+      weibo_id = #{weiboId,jdbcType=VARCHAR},
+      weixin_id = #{weixinId,jdbcType=VARCHAR}
     where m_id = #{mId,jdbcType=INTEGER}
   </update>
 </mapper>

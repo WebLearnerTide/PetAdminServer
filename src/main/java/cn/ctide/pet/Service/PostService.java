@@ -11,4 +11,8 @@ import java.util.Map;
  */
 public interface PostService {
     Map getHotPost(Page page);
+
+    int addNewPost(Post post) throws Exception;
+
+    Map getMyPost(Page page, Integer mId);
 }

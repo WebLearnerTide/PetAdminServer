@@ -15,6 +15,8 @@ public class Post {
 
     private Date pTime;
 
+    private Integer barId;
+
     public Integer getpId() {
         return pId;
     }
@@ -61,5 +63,13 @@ public class Post {
 
     public void setpTime(Date pTime) {
         this.pTime = pTime;
+    }
+
+    public Integer getBarId() {
+        return barId;
+    }
+
+    public void setBarId(Integer barId) {
+        this.barId = barId;
     }
 }

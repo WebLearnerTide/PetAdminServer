@@ -1,11 +1,10 @@
 package cn.ctide.pet.Model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-
-@JsonInclude(Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Master {
     private Integer mId;
 
@@ -22,6 +21,12 @@ public class Master {
     private Integer mSigntimes;
 
     private Integer mLevel;
+
+    private String qqId;
+
+    private String weiboId;
+
+    private String weixinId;
 
     public Integer getmId() {
         return mId;
@@ -85,5 +90,29 @@ public class Master {
 
     public void setmLevel(Integer mLevel) {
         this.mLevel = mLevel;
+    }
+
+    public String getQqId() {
+        return qqId;
+    }
+
+    public void setQqId(String qqId) {
+        this.qqId = qqId == null ? null : qqId.trim();
+    }
+
+    public String getWeiboId() {
+        return weiboId;
+    }
+
+    public void setWeiboId(String weiboId) {
+        this.weiboId = weiboId == null ? null : weiboId.trim();
+    }
+
+    public String getWeixinId() {
+        return weixinId;
+    }
+
+    public void setWeixinId(String weixinId) {
+        this.weixinId = weixinId == null ? null : weixinId.trim();
     }
 }

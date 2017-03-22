@@ -21,4 +21,6 @@ public interface PostMapper {
     int updateByPrimaryKey(Post record);
 
     List getHotPost(@Param("pTime") Date date);
+
+    List getMyPosts(@Param("mId") Integer mId);
 }

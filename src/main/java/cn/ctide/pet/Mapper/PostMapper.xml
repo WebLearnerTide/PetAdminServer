@@ -8,8 +8,8 @@
     <result column="p_title" property="pTitle" jdbcType="VARCHAR" />
     <result column="p_content" property="pContent" jdbcType="VARCHAR" />
     <result column="p_time" property="pTime" jdbcType="TIMESTAMP" />
+    <result column="bar_id" property="barId" jdbcType="INTEGER" />
   </resultMap>
-
   <resultMap id="hotMap" type="HashMap" >
     <id column="p_id" property="pId" jdbcType="INTEGER" />
     <result column="pc_id" property="pcId" jdbcType="INTEGER" />
@@ -19,13 +19,15 @@
     <result column="p_time" property="pTime" jdbcType="TIMESTAMP" />
     <result column="m_name" property="mName" jdbcType="VARCHAR" />
     <result column="_count" property="count" jdbcType="INTEGER" />
+    <result column="bar_id" property="barId" jdbcType="INTEGER" />
+    <result column="bar_name" property="barName" jdbcType="VARCHAR" />
+    <result column="pc_name" property="pcName" jdbcType="VARCHAR" />
   </resultMap>
-
   <sql id="Base_Column_List" >
-    p_id, pc_id, m_id, p_title, p_content, p_time
+    p_id, pc_id, m_id, p_title, p_content, p_time, bar_id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from post
     where p_id = #{pId,jdbcType=INTEGER}
@@ -34,25 +36,44 @@
     select
     a.*,
     c.m_name,
+    d.bar_name,
+    e.pc_name,
     count(b.r_id) as _count
-    from post a, reply b, master c
+    from post a, reply b, master c, postbar d, postclass e
     where
     a.p_id=b.p_id
     and a.m_id!=b.m_id
+		and d.bar_id=a.bar_id
+		and e.pc_id=a.pc_id
     <![CDATA[ AND a.p_time<=#{pTime} ]]>
     and c.m_id=a.m_id GROUP BY a.p_id order by _count DESC
   </select>
+
+  <select id="getMyPosts" resultMap="hotMap">
+    select
+    a.*,
+    c.m_name,
+    d.bar_name,
+    e.pc_name
+    from post a, master c, postbar d, postclass e
+    where
+    d.bar_id=a.bar_id
+		and e.pc_id=a.pc_id
+    and c.m_id=#{mId}
+    and c.m_id=a.m_id order by a.p_time DESC
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from post
     where p_id = #{pId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.ctide.pet.Model.Post" >
-    insert into post (p_id, pc_id, m_id, 
-      p_title, p_content, p_time
-      )
-    values (#{pId,jdbcType=INTEGER}, #{pcId,jdbcType=INTEGER}, #{mId,jdbcType=INTEGER}, 
-      #{pTitle,jdbcType=VARCHAR}, #{pContent,jdbcType=VARCHAR}, #{pTime,jdbcType=TIMESTAMP}
-      )
+    insert into post (p_id, pc_id, m_id,
+    p_title, p_content, p_time,
+    bar_id)
+    values (#{pId,jdbcType=INTEGER}, #{pcId,jdbcType=INTEGER}, #{mId,jdbcType=INTEGER},
+    #{pTitle,jdbcType=VARCHAR}, #{pContent,jdbcType=VARCHAR}, #{pTime,jdbcType=TIMESTAMP},
+    #{barId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="cn.ctide.pet.Model.Post" >
     insert into post
@@ -75,6 +96,9 @@
       <if test="pTime != null" >
         p_time,
       </if>
+      <if test="barId != null" >
+        bar_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="pId != null" >
@@ -94,6 +118,9 @@
       </if>
       <if test="pTime != null" >
         #{pTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="barId != null" >
+        #{barId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -115,6 +142,9 @@
       <if test="pTime != null" >
         p_time = #{pTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="barId != null" >
+        bar_id = #{barId,jdbcType=INTEGER},
+      </if>
     </set>
     where p_id = #{pId,jdbcType=INTEGER}
   </update>
@@ -124,7 +154,8 @@
       m_id = #{mId,jdbcType=INTEGER},
       p_title = #{pTitle,jdbcType=VARCHAR},
       p_content = #{pContent,jdbcType=VARCHAR},
-      p_time = #{pTime,jdbcType=TIMESTAMP}
+      p_time = #{pTime,jdbcType=TIMESTAMP},
+      bar_id = #{barId,jdbcType=INTEGER}
     where p_id = #{pId,jdbcType=INTEGER}
   </update>
 </mapper>

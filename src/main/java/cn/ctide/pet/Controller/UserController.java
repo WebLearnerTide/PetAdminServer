@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -42,8 +43,10 @@ public class UserController {
 		Map result = new HashMap();
 		try{
 			masterService.addMaster(master);
+			master = masterService.getMasterByMaster(master);
 			result.put("success", true);
 			result.put("msg", "注册成功");
+			result.put("master", master);
 		}catch(Exception e){
 			result.put("success", false);
 			result.put("msg", e.getMessage());
@@ -75,4 +78,58 @@ public class UserController {
 		result.put("master", master);
 		return result;
 	}
+
+	@RequestMapping("/getByQQ/{userId}")
+    @ResponseBody
+    public Map getByQQ(@PathVariable String userId) {
+        Map result = new HashMap();
+        try {
+            Master master = new Master();
+            master.setQqId(userId);
+            master = masterService.getMasterByMaster(master);
+            result.put("success", true);
+            result.put("msg", "登录成功！");
+            result.put("master", master);
+        } catch (Exception e) {
+            result.put("success", false);
+            result.put("msg", e.getMessage());
+        }
+        return result;
+    }
+
+    @RequestMapping("/getByWeiBo/{userId}")
+    @ResponseBody
+    public Map getByWeiBo(@PathVariable String userId) {
+        Map result = new HashMap();
+        try {
+            Master master = new Master();
+            master.setWeiboId(userId);
+            master = masterService.getMasterByMaster(master);
+            result.put("success", true);
+            result.put("msg", "登录成功！");
+            result.put("master", master);
+        } catch (Exception e) {
+            result.put("success", false);
+            result.put("msg", e.getMessage());
+        }
+        return result;
+    }
+
+    @RequestMapping("/getByWeChat/{userId}")
+    @ResponseBody
+    public Map getByWeChat(@PathVariable String userId) {
+        Map result = new HashMap();
+        try {
+            Master master = new Master();
+            master.setWeixinId(userId);
+            master = masterService.getMasterByMaster(master);
+            result.put("success", true);
+            result.put("msg", "登录成功！");
+            result.put("master", master);
+        } catch (Exception e) {
+            result.put("success", false);
+            result.put("msg", e.getMessage());
+        }
+        return result;
+    }
 }

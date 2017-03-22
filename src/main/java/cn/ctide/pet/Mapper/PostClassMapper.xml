@@ -14,7 +14,12 @@
     from postclass
     where pc_id = #{pcId,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    <select id="selectAll" resultMap="BaseResultMap">
+      SELECT
+      <include refid="Base_Column_List"/>
+      FROM postclass
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from postclass
     where pc_id = #{pcId,jdbcType=INTEGER}
   </delete>
