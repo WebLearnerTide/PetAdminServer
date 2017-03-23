@@ -1,6 +1,7 @@
 package cn.ctide.pet.Dao;
 
 import cn.ctide.pet.Model.Post;
+import cn.ctide.pet.Model.PostDetail;
 import org.apache.ibatis.annotations.Param;
 
 import java.sql.Timestamp;
@@ -23,4 +24,6 @@ public interface PostMapper {
     List getHotPost(@Param("pTime") Date date);
 
     List getMyPosts(@Param("mId") Integer mId);
+
+    List<PostDetail> getPostDetail(@Param("pId") Integer pId);
 }

@@ -23,6 +23,26 @@
     <result column="bar_name" property="barName" jdbcType="VARCHAR" />
     <result column="pc_name" property="pcName" jdbcType="VARCHAR" />
   </resultMap>
+
+  <resultMap id="postDetail" type="cn.ctide.pet.Model.PostDetail" >
+    <id column="p_id" property="pId" jdbcType="INTEGER" />
+    <result column="pc_id" property="pcId" jdbcType="INTEGER" />
+    <result column="m_id" property="mId" jdbcType="INTEGER" />
+    <result column="p_title" property="pTitle" jdbcType="VARCHAR" />
+    <result column="p_content" property="pContent" jdbcType="VARCHAR" />
+    <result column="p_time" property="pTime" jdbcType="TIMESTAMP" />
+    <result column="m_name" property="mName" jdbcType="VARCHAR" />
+    <result column="rowno" property="rowno" jdbcType="INTEGER" />
+    <result column="bar_id" property="barId" jdbcType="INTEGER" />
+    <result column="bar_name" property="barName" jdbcType="VARCHAR" />
+    <result column="pc_name" property="pcName" jdbcType="VARCHAR" />
+    <result column="r_id" property="rId" jdbcType="INTEGER" />
+    <result column="r_ided" property="rIded" jdbcType="INTEGER" />
+    <result property="fContent" jdbcType="VARCHAR" column="r_content"></result>
+    <result property="fId" jdbcType="INTEGER" column="f_id"></result>
+    <result property="fName" jdbcType="VARCHAR" column="f_name"></result>
+  </resultMap>
+
   <sql id="Base_Column_List" >
     p_id, pc_id, m_id, p_title, p_content, p_time, bar_id
   </sql>
@@ -33,20 +53,33 @@
     where p_id = #{pId,jdbcType=INTEGER}
   </select>
   <select id="getHotPost" resultMap="hotMap">
-    select
-    a.*,
-    c.m_name,
-    d.bar_name,
-    e.pc_name,
-    count(b.r_id) as _count
-    from post a, reply b, master c, postbar d, postclass e
-    where
-    a.p_id=b.p_id
-    and a.m_id!=b.m_id
-		and d.bar_id=a.bar_id
-		and e.pc_id=a.pc_id
-    <![CDATA[ AND a.p_time<=#{pTime} ]]>
-    and c.m_id=a.m_id GROUP BY a.p_id order by _count DESC
+    SELECT
+        _post.*, count(b.r_id) AS _count
+    FROM
+        (
+            SELECT
+                a.*, c.m_name,
+                d.bar_name,
+                e.pc_name
+            FROM
+                post a,
+                master c,
+                postbar d,
+                postclass e
+            WHERE
+                d.bar_id = a.bar_id
+            AND d.bar_id = a.bar_id
+            AND e.pc_id = a.pc_id
+            AND c.m_id = a.m_id
+        ) _post
+    LEFT JOIN reply b ON (b.p_id = _post.p_id)
+    WHERE
+        <![CDATA[ _post.p_time<=#{pTime} ]]>
+    GROUP BY
+        _post.p_id
+    ORDER BY
+        _count DESC,
+        _post.p_time DESC
   </select>
 
   <select id="getMyPosts" resultMap="hotMap">
@@ -61,6 +94,57 @@
 		and e.pc_id=a.pc_id
     and c.m_id=#{mId}
     and c.m_id=a.m_id order by a.p_time DESC
+  </select>
+
+  <select id="getPostDetail" resultMap="postDetail">
+    SELECT
+	detail.*, r.r_content,
+	r.m_id AS f_id,
+	m.m_name as f_name
+FROM
+	(
+		SELECT
+			a.*, b.m_name,
+			concat(@cur :=@cur + 1) AS rowno
+		FROM
+			(
+				SELECT
+					p.*, pc.pc_name,
+					pb.bar_name,
+					NULL AS r_id,
+					NULL AS r_ided
+				FROM
+					post p,
+					postclass pc,
+					postbar pb
+				WHERE
+					p.pc_id = pc.pc_id
+				AND p.bar_id = pb.bar_id
+				UNION ALL
+					SELECT
+						r.p_id,
+						NULL AS pc_id,
+						r.m_id,
+						NULL AS p_title,
+						r.r_content AS p_content,
+						r.r_time AS p_time,
+						NULL AS bar_id,
+						NULL AS pc_name,
+						NULL AS bar_name,
+						r.r_id,
+						r.r_ided
+					FROM
+						reply r
+			) a
+		LEFT JOIN `master` b ON (a.m_id = b.m_id),
+		(SELECT @cur := 0) t
+	WHERE
+		a.p_id = #{pId}
+	ORDER BY
+		a.p_time
+	) detail
+LEFT JOIN reply r ON (detail.r_ided = r.r_id)
+LEFT JOIN `master` m ON (r.m_id = m.m_id)
   </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >

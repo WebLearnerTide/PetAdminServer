@@ -15,4 +15,6 @@ public interface PostService {
     int addNewPost(Post post) throws Exception;
 
     Map getMyPost(Page page, Integer mId);
+
+    Map getPostDetail(Page p, Integer pId);
 }

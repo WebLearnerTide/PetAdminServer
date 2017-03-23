@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.ctide.pet.Dao.MPCollectMapper" >
+  <resultMap id="BaseResultMap" type="cn.ctide.pet.Model.MPCollect" >
+    <id column="m_id" property="mId" jdbcType="INTEGER" />
+    <id column="p_id" property="pId" jdbcType="INTEGER" />
+    <result column="collect_time" property="collectTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    m_id, p_id, collect_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="cn.ctide.pet.Model.MPCollectKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from m_p_collect
+    where m_id = #{mId,jdbcType=INTEGER}
+      and p_id = #{pId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="cn.ctide.pet.Model.MPCollectKey" >
+    delete from m_p_collect
+    where m_id = #{mId,jdbcType=INTEGER}
+      and p_id = #{pId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.ctide.pet.Model.MPCollect" >
+    insert into m_p_collect (m_id, p_id, collect_time
+      )
+    values (#{mId,jdbcType=INTEGER}, #{pId,jdbcType=INTEGER}, #{collectTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.ctide.pet.Model.MPCollect" >
+    insert into m_p_collect
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="mId != null" >
+        m_id,
+      </if>
+      <if test="pId != null" >
+        p_id,
+      </if>
+      <if test="collectTime != null" >
+        collect_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="mId != null" >
+        #{mId,jdbcType=INTEGER},
+      </if>
+      <if test="pId != null" >
+        #{pId,jdbcType=INTEGER},
+      </if>
+      <if test="collectTime != null" >
+        #{collectTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.ctide.pet.Model.MPCollect" >
+    update m_p_collect
+    <set >
+      <if test="collectTime != null" >
+        collect_time = #{collectTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where m_id = #{mId,jdbcType=INTEGER}
+      and p_id = #{pId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.ctide.pet.Model.MPCollect" >
+    update m_p_collect
+    set collect_time = #{collectTime,jdbcType=TIMESTAMP}
+    where m_id = #{mId,jdbcType=INTEGER}
+      and p_id = #{pId,jdbcType=INTEGER}
+  </update>
+</mapper>

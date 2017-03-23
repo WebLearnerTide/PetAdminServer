@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -49,5 +50,11 @@ public class PostController {
     @ResponseBody
     public Map getMyPosts(Page page, Integer mId) {
         return postService.getMyPost(page, mId);
+    }
+
+    @RequestMapping("/getPostDetail")
+    @ResponseBody
+    public Map getPostDetail(Page p, Integer pId) {
+        return postService.getPostDetail(p, pId);
     }
 }
