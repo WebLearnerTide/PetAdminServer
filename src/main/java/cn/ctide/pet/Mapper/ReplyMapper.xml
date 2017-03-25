@@ -8,9 +8,25 @@
     <result column="r_content" property="rContent" jdbcType="VARCHAR" />
     <result column="r_time" property="rTime" jdbcType="TIMESTAMP" />
     <result column="r_ided" property="rIded" jdbcType="INTEGER" />
+    <result column="read" property="read" jdbcType="TINYINT" />
+    <result column="m_read" property="mRead" jdbcType="TINYINT" />
+  </resultMap>
+  <resultMap id="replyMap" type="HashMap" >
+    <id column="r_id" property="rId" jdbcType="INTEGER" />
+    <result column="m_id" property="mId" jdbcType="INTEGER" />
+    <result column="p_id" property="pId" jdbcType="INTEGER" />
+    <result column="r_content" property="rContent" jdbcType="VARCHAR" />
+    <result column="r_time" property="rTime" jdbcType="TIMESTAMP" />
+    <result column="r_ided" property="rIded" jdbcType="INTEGER" />
+    <result column="read" property="read" jdbcType="TINYINT" />
+    <result column="m_read" property="mRead" jdbcType="TINYINT" />
+    <result column="p_title" property="pTitle" jdbcType="VARCHAR"/>
+    <result column="pc_name" property="pcName" jdbcType="VARCHAR"/>
+    <result column="bar_name" property="barName" jdbcType="VARCHAR"/>
+    <result column="m_name" property="mName" jdbcType="VARCHAR"/>
   </resultMap>
   <sql id="Base_Column_List" >
-    r_id, m_id, p_id, r_content, r_time, r_ided
+    r_id, m_id, p_id, r_content, r_time, r_ided, `read`, m_read
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -18,6 +34,47 @@
     from reply
     where r_id = #{rId,jdbcType=INTEGER}
   </select>
+
+  <select id="readReply" statementType="CALLABLE">
+    {call readReply(
+    #{mId, jdbcType=INTEGER, mode=IN}
+    )}
+  </select>
+
+  <select id="getReply" resultMap="replyMap">
+    SELECT t.*,p.p_title,pc.pc_name, pb.bar_name, m.m_name from
+	(SELECT * from
+		reply r
+	WHERE EXISTS
+		(SELECT b.* from master a, post b where a.m_id=b.m_id and a.m_id=#{mId} AND r.p_id=b.p_id)
+		AND r.m_read=0 AND r.m_id!=#{mId}
+	union all
+	SELECT r.r_id, r.m_id, r.p_id, r.r_content, r.r_time, r.r_ided, r.`read`, r.m_read from
+		(select b.*, a.m_id as f_id from reply a, reply b where a.r_id = b.r_ided) r
+	WHERE NOT EXISTS
+		(SELECT b.* from master a, post b where a.m_id=b.m_id AND r.p_id=b.p_id and a.m_id=#{mId})
+and r.f_id=#{mId} AND r.`read`=0) t, post p, postclass pc, postbar pb, `master` m
+    WHERE t.p_id=p.p_id AND p.pc_id = pc.pc_id AND p.bar_id=pb.bar_id AND t.m_id=m.m_id
+    ORDER BY t.r_time DESC
+  </select>
+
+  <select id="getReplyCount" resultType="Integer">
+    SELECT count(1) from
+    (SELECT * from
+		reply r
+	WHERE EXISTS
+		(SELECT b.* from master a, post b where a.m_id=b.m_id and a.m_id=#{mId} AND r.p_id=b.p_id)
+		AND r.m_read=0 AND r.m_id!=#{mId}
+	union all
+	SELECT r.r_id, r.m_id, r.p_id, r.r_content, r.r_time, r.r_ided, r.`read`, r.m_read from
+		(select b.*, a.m_id as f_id from reply a, reply b where a.r_id = b.r_ided) r
+	WHERE NOT EXISTS
+		(SELECT b.* from master a, post b where a.m_id=b.m_id AND r.p_id=b.p_id and a.m_id=#{mId})
+and r.f_id=#{mId} AND r.`read`=0) t, post p, postclass pc, postbar pb, `master` m
+    WHERE t.p_id=p.p_id AND p.pc_id = pc.pc_id AND p.bar_id=pb.bar_id AND t.m_id=m.m_id
+    ORDER BY t.r_time DESC
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from reply
     where r_id = #{rId,jdbcType=INTEGER}
@@ -90,6 +147,12 @@
       </if>
       <if test="rIded != null" >
         r_ided = #{rIded,jdbcType=INTEGER},
+      </if>
+      <if test="read != null" >
+        `read` = #{read,jdbcType=TINYINT},
+      </if>
+      <if test="mRead != null" >
+        m_read = #{mRead,jdbcType=TINYINT},
       </if>
     </set>
     where r_id = #{rId,jdbcType=INTEGER}

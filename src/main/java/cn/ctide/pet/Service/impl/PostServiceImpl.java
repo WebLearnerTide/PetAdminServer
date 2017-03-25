@@ -4,12 +4,12 @@ import cn.ctide.pet.Dao.PostMapper;
 import cn.ctide.pet.Model.Post;
 import cn.ctide.pet.Model.PostDetail;
 import cn.ctide.pet.Service.PostService;
+import cn.ctide.pet.container.OSS;
 import cn.ctide.pet.util.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.util.*;
 
 /**
@@ -112,5 +112,77 @@ public class PostServiceImpl implements PostService {
             result.put("msg", "获取失败！" + e.getMessage());
         }
         return result;
+    }
+
+    @Override
+    public Map getCollectPost(Page page, Integer mId) {
+        Map result = new HashMap();
+        if (null==page) {
+            page = new Page();
+        }
+        PageHelper.startPage(page.getPage(), page.getPageSize(), true);
+        try {
+            List list = postMapper.getCollectPost(mId);
+            result.put("success", true);
+            if (null==list || list.size()==0) {
+                result.put("total", 0);
+                result.put("page", 1);
+                result.put("empty", true);
+            } else {
+                result.put("collectPosts", list);
+                result.put("total", ((com.github.pagehelper.Page)list).getPages());
+                result.put("page", ((com.github.pagehelper.Page)list).getPageNum());
+                result.put("empty", false);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.put("success", false);
+            result.put("msg", "获取失败！" + e.getMessage());
+        }
+        return result;
+    }
+
+    @Override
+    public Map getBarPost(Page page, Integer barId) {
+        Map result = new HashMap();
+        if (null==page) {
+            page = new Page();
+        }
+        PageHelper.startPage(page.getPage(), page.getPageSize(), true);
+        try {
+            List<Map> list = postMapper.getBarPost(barId, false);
+            result.put("success", true);
+            if (null==list || list.size()==0) {
+                result.put("total", 0);
+                result.put("totalPage", 0);
+                result.put("page", 1);
+                result.put("empty", true);
+            } else {
+                ArrayList<Map> target = new ArrayList<>();
+                for (Map map : list) {
+                    String mImg = (String) map.get("mImg");
+                    if (null!=mImg) {
+                        mImg = OSS.INSTANCE.generateUrl(mImg, OSS.INSTANCE.USER_STYLE);
+                    }
+                    map.put("mImg", mImg);
+                    target.add(map);
+                }
+                result.put("barPost", target);
+                result.put("total", ((com.github.pagehelper.Page)list).getTotal());
+                result.put("totalPage", ((com.github.pagehelper.Page)list).getPages());
+                result.put("page", ((com.github.pagehelper.Page)list).getPageNum());
+                result.put("empty", false);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.put("success", false);
+            result.put("msg", "获取失败！" + e.getMessage());
+        }
+        return result;
+    }
+
+    @Override
+    public List getBarTopPost(Integer barId) throws Exception {
+        return postMapper.getBarPost(barId, true);
     }
 }

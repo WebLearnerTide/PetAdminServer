@@ -17,4 +17,10 @@ public interface PostService {
     Map getMyPost(Page page, Integer mId);
 
     Map getPostDetail(Page p, Integer pId);
+
+    Map getCollectPost(Page page, Integer mId);
+
+    Map getBarPost(Page p, Integer barId);
+
+    List getBarTopPost(Integer barId) throws Exception;
 }

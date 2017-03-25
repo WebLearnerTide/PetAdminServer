@@ -4,7 +4,6 @@ import cn.ctide.pet.Model.Post;
 import cn.ctide.pet.Model.PostDetail;
 import org.apache.ibatis.annotations.Param;
 
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -26,4 +25,8 @@ public interface PostMapper {
     List getMyPosts(@Param("mId") Integer mId);
 
     List<PostDetail> getPostDetail(@Param("pId") Integer pId);
+
+    List getCollectPost(@Param("mId") Integer mId);
+
+    List getBarPost(@Param("barId") Integer barId, @Param("isTop") boolean isTop);
 }

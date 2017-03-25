@@ -42,6 +42,7 @@ public class UserController {
 	public Map register(Master master){
 		Map result = new HashMap();
 		try{
+			master.setmImg("user/default.png");
 			masterService.addMaster(master);
 			master = masterService.getMasterByMaster(master);
 			result.put("success", true);
@@ -73,9 +74,17 @@ public class UserController {
 	@ResponseBody
 	public Map doSign(Integer mId) {
 		Map result = new HashMap();
-		Master master = masterService.updateSign(mId);
-		result.put("success", true);
-		result.put("master", master);
+		Master master = null;
+		try {
+			master = masterService.updateSign(mId);
+			result.put("success", true);
+			result.put("master", master);
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.put("success", false);
+			result.put("msg", "查询失败");
+		}
+
 		return result;
 	}
 
@@ -132,4 +141,20 @@ public class UserController {
         }
         return result;
     }
+
+    @RequestMapping("/update")
+	@ResponseBody
+	public Map updateMaster(Master master) {
+		Map result = new HashMap();
+		try {
+			master = masterService.updateMaster(master);
+			result.put("success", true);
+			result.put("master", master);
+		} catch (Exception e) {
+			e.printStackTrace();
+			result.put("success", false);
+			result.put("msg", e.getMessage());
+		}
+		return result;
+	}
 }

@@ -17,6 +17,8 @@ public class Post {
 
     private Integer barId;
 
+    private Boolean isTop;
+
     public Integer getpId() {
         return pId;
     }
@@ -71,5 +73,13 @@ public class Post {
 
     public void setBarId(Integer barId) {
         this.barId = barId;
+    }
+
+    public Boolean getTop() {
+        return isTop;
+    }
+
+    public void setTop(Boolean top) {
+        isTop = top;
     }
 }

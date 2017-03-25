@@ -1,5 +1,6 @@
 package cn.ctide.pet.Model;
 
+import cn.ctide.pet.container.OSS;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.Date;
@@ -27,6 +28,8 @@ public class Master {
     private String weiboId;
 
     private String weixinId;
+
+    private String mImg;
 
     public Integer getmId() {
         return mId;
@@ -114,5 +117,13 @@ public class Master {
 
     public void setWeixinId(String weixinId) {
         this.weixinId = weixinId == null ? null : weixinId.trim();
+    }
+
+    public String getmImg() {
+        return mImg;
+    }
+
+    public void setmImg(String mImg) {
+        this.mImg = mImg;
     }
 }

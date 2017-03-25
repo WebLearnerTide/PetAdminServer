@@ -11,7 +11,7 @@
     petc_id, petc_name, petc_build,petc_build_name
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from petclass
     where petc_id = #{petcId,jdbcType=INTEGER}

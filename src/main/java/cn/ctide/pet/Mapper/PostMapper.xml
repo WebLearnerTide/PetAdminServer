@@ -9,6 +9,7 @@
     <result column="p_content" property="pContent" jdbcType="VARCHAR" />
     <result column="p_time" property="pTime" jdbcType="TIMESTAMP" />
     <result column="bar_id" property="barId" jdbcType="INTEGER" />
+    <result column="is_top" property="isTop" jdbcType="TINYINT"/>
   </resultMap>
   <resultMap id="hotMap" type="HashMap" >
     <id column="p_id" property="pId" jdbcType="INTEGER" />
@@ -22,6 +23,8 @@
     <result column="bar_id" property="barId" jdbcType="INTEGER" />
     <result column="bar_name" property="barName" jdbcType="VARCHAR" />
     <result column="pc_name" property="pcName" jdbcType="VARCHAR" />
+    <result column="is_top" property="isTop" jdbcType="TINYINT"/>
+    <result column="m_img" property="mImg" jdbcType="VARCHAR" />
   </resultMap>
 
   <resultMap id="postDetail" type="cn.ctide.pet.Model.PostDetail" >
@@ -44,7 +47,7 @@
   </resultMap>
 
   <sql id="Base_Column_List" >
-    p_id, pc_id, m_id, p_title, p_content, p_time, bar_id
+    p_id, pc_id, m_id, p_title, p_content, p_time, bar_id,is_top
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select
@@ -96,6 +99,23 @@
     and c.m_id=a.m_id order by a.p_time DESC
   </select>
 
+  <select id="getCollectPost" resultMap="hotMap">
+    SELECT
+        a.*,c.pc_name,d.bar_name,e.m_name
+    FROM
+        post a,
+        m_p_collect b,
+        postclass c,
+        postbar d,
+        master e
+    WHERE
+        a.p_id = b.p_id
+    AND a.pc_id = c.pc_id
+    AND a.bar_id = d.bar_id
+    AND e.m_id=a.m_id
+    AND a.m_id=#{mId}
+  </select>
+
   <select id="getPostDetail" resultMap="postDetail">
     SELECT
 	detail.*, r.r_content,
@@ -145,6 +165,12 @@ FROM
 	) detail
 LEFT JOIN reply r ON (detail.r_ided = r.r_id)
 LEFT JOIN `master` m ON (r.m_id = m.m_id)
+  </select>
+  <select id="getBarPost" resultMap="hotMap">
+    select a.*, c.m_name,d.pc_name, c.m_img FROM post a, postbar b, `master` c, postclass d
+	where a.bar_id=b.bar_id and a.m_id = c.m_id AND a.pc_id=d.pc_id AND a.bar_id = #{barId}
+	and a.is_top = #{isTop} order by
+	a.p_time desc
   </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >

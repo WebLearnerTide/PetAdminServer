@@ -7,15 +7,13 @@ import javax.mail.internet.MimeMessage;
 
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
-import cn.ctide.pet.container.AppContainer;
-
 public class EmailSender extends JavaMailSenderImpl {
 	
 	public String sendResetCode(String to) throws Exception {
     	String subject = "重置密码";
     	String resetCode = ReturnCodeGenerator.INSTANCE.getCode();
     	StringBuffer message = new StringBuffer("您的验证码为：<b style=\"color:red\">").append(resetCode).append("</b><br>请不要将验证码告诉别人哦！");
-    	AppContainer.INSTANCE.addReturnCode(to, resetCode);
+//    	OSS.INSTANCE.addReturnCode(to, resetCode);
     	MimeMessage simpleMailMessage = new MimeMessage(getSession());
     	simpleMailMessage.setFrom(new InternetAddress(getUsername()));
     	simpleMailMessage.setRecipient(MimeMessage.RecipientType.TO, new InternetAddress(to));

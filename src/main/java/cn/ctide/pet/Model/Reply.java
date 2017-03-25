@@ -15,6 +15,10 @@ public class Reply {
 
     private Integer rIded;
 
+    private Boolean read;
+
+    private Boolean mRead;
+
     public Integer getrId() {
         return rId;
     }
@@ -61,5 +65,21 @@ public class Reply {
 
     public void setrIded(Integer rIded) {
         this.rIded = rIded;
+    }
+
+    public Boolean getRead() {
+        return read;
+    }
+
+    public void setRead(Boolean read) {
+        this.read = read;
+    }
+
+    public Boolean getmRead() {
+        return mRead;
+    }
+
+    public void setmRead(Boolean mRead) {
+        this.mRead = mRead;
     }
 }

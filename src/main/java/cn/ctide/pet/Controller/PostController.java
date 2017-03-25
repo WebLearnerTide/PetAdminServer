@@ -4,6 +4,7 @@ import cn.ctide.pet.Model.Post;
 import cn.ctide.pet.Service.PostService;
 import cn.ctide.pet.util.Page;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -56,5 +57,39 @@ public class PostController {
     @ResponseBody
     public Map getPostDetail(Page p, Integer pId) {
         return postService.getPostDetail(p, pId);
+    }
+
+    @RequestMapping("/getCollect")
+    @ResponseBody
+    public Map getCollect(Page p, Integer mId) {
+        return postService.getCollectPost(p, mId);
+    }
+
+    @RequestMapping("/getBarPosts")
+    @ResponseBody
+    public Map getBarPosts(Integer barId, Page p) {
+        return postService.getBarPost(p, barId);
+    }
+
+    @RequestMapping("/getBarTop")
+    @ResponseBody
+    public Map get(Integer barId) {
+        Map result = new HashMap();
+        try {
+            List list = postService.getBarTopPost(barId);
+            result.put("success", true);
+            if (null==list || list.size()==0) {
+                result.put("empty", true);
+                result.put("msg", "没有置顶帖");
+            } else {
+                result.put("topPost", list);
+                result.put("empty", false);
+            }
+        } catch (Exception e) {
+            result.put("success", false);
+            result.put("empty", true);
+            result.put("msg", e.getMessage());
+        }
+        return result;
     }
 }

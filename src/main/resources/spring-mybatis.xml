@@ -102,6 +102,7 @@
             <tx:method name="delAndRepair" propagation="REQUIRED" read-only="false"/>
             <tx:method name="input*" propagation="REQUIRED"  read-only="false"/>
             <tx:method name="change*" propagation="REQUIRED"  read-only="false"/>
+            <tx:method name="do*" propagation="REQUIRED"  read-only="false"/>
 
             <tx:method name="get*" propagation="SUPPORTS" />
             <tx:method name="find*" propagation="SUPPORTS" />

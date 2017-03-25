@@ -13,10 +13,11 @@
     <result column="qq_id" property="qqId" jdbcType="VARCHAR" />
     <result column="weibo_id" property="weiboId" jdbcType="VARCHAR" />
     <result column="weixin_id" property="weixinId" jdbcType="VARCHAR" />
+    <result column="m_img" property="mImg" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     m_id, m_name, m_score, m_pwd, m_email, m_date, m_signtimes, m_level, qq_id, weibo_id, 
-    weixin_id
+    weixin_id,m_img
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -123,6 +124,9 @@
       <if test="weixinId != null" >
         weixin_id,
       </if>
+      <if test="mImg != null" >
+        m_img,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="mId != null" >
@@ -158,6 +162,9 @@
       <if test="weixinId != null" >
         #{weixinId,jdbcType=VARCHAR},
       </if>
+      <if test="mImg != null" >
+        #{mImg}
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="cn.ctide.pet.Model.Master" >
@@ -192,6 +199,9 @@
       </if>
       <if test="weixinId != null" >
         weixin_id = #{weixinId,jdbcType=VARCHAR},
+      </if>
+      <if test="mImg != null" >
+        m_img = #{mImg,jdbcType=VARCHAR},
       </if>
     </set>
     where m_id = #{mId,jdbcType=INTEGER}
