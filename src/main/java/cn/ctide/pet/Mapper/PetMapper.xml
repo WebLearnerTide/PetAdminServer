@@ -16,46 +16,46 @@
     pet_id, m_id, petc_id, pet_name, pet_date, pet_birth, pet_gender, pet_color, pet_photo
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from pet
-    where pet_id = #{petId,jdbcType=INTEGER}
+    select
+        p.pet_id, p.m_id, p.petc_id, p.pet_name, p.pet_date, p.pet_birth, p.pet_gender, p.pet_color, IFNULL(p.pet_photo, pc.petc_img) AS pet_photo
+	    from pet p, petclass pc
+    where p.pet_id = #{petId,jdbcType=INTEGER}
+    and p.petc_id=pc.petc_id
   </select>
   
   <select id="selectSelective" parameterType="cn.ctide.pet.Model.Pet" resultMap="BaseResultMap">
-	  select 
-	    <include refid="Base_Column_List" />
-	    from pet
+	  select
+        p.pet_id, p.m_id, p.petc_id, p.pet_name, p.pet_date, p.pet_birth, p.pet_gender, p.pet_color, IFNULL(p.pet_photo, pc.petc_img) AS pet_photo
+	    from pet p, petclass pc
 	  <where>
-	  	<trim prefixOverrides="AND|OR">
-			<if test="petId != null">
-			  AND pet_id = #{petId,jdbcType=INTEGER}
-			</if>
-			<if test="mId != null">
-			  AND m_id = #{mId,jdbcType=INTEGER}
-			</if>
-			<if test="petcId != null">
-			  AND petc_id = #{petcId,jdbcType=INTEGER}
-			</if>
-			<if test="petName != null">
-			  AND pet_name = #{petName,jdbcType=VARCHAR}
-			</if>
-			<if test="petDate != null">
-			  AND pet_date = #{petDate,jdbcType=DATE}
-			</if>
-			<if test="petBirth != null">
-			  AND pet_birth = #{petBirth,jdbcType=DATE}
-			</if>
-			<if test="petGender != null">
-			  AND pet_gender = #{petGender,jdbcType=INTEGER}
-			</if>
-			<if test="petColor != null">
-			  AND pet_color = #{petColor,jdbcType=VARCHAR}
-			</if>
-			<if test="petPhoto != null">
-			  AND pet_photo = #{petPhoto,jdbcType=VARCHAR}
-			</if>
-	  	</trim>
+        p.petc_id=pc.petc_id
+        <if test="petId != null">
+          AND pet_id = #{petId,jdbcType=INTEGER}
+        </if>
+        <if test="mId != null">
+          AND m_id = #{mId,jdbcType=INTEGER}
+        </if>
+        <if test="petcId != null">
+          AND petc_id = #{petcId,jdbcType=INTEGER}
+        </if>
+        <if test="petName != null">
+          AND pet_name = #{petName,jdbcType=VARCHAR}
+        </if>
+        <if test="petDate != null">
+          AND pet_date = #{petDate,jdbcType=DATE}
+        </if>
+        <if test="petBirth != null">
+          AND pet_birth = #{petBirth,jdbcType=DATE}
+        </if>
+        <if test="petGender != null">
+          AND pet_gender = #{petGender,jdbcType=INTEGER}
+        </if>
+        <if test="petColor != null">
+          AND pet_color = #{petColor,jdbcType=VARCHAR}
+        </if>
+        <if test="petPhoto != null">
+          AND pet_photo = #{petPhoto,jdbcType=VARCHAR}
+        </if>
 	  </where>
   </select>
   

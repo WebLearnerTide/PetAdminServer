@@ -24,6 +24,7 @@ public enum OSS {
 	private final static String OSS_BUCKET = "ctide";
 
 	public String USER_STYLE = "image/resize,m_fill,h_100,w_100/format,png";
+	public String PET_STYLE = "image/resize,m_mfit,h_100,w_100/format,png";
 
 	public void upload(String ossPath, File local) {
 	    OSSClient client = new OSSClient(ENDPOINT, OSS_ACCESS_ID, OSS_ACCESS_KEY);

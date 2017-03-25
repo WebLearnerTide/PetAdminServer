@@ -3,6 +3,7 @@ package cn.ctide.pet.Service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.ctide.pet.container.OSS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,10 +41,10 @@ public class PetServiceImpl implements PetService{
 			if (null==list || list.size()==0) {
 				return new ArrayList<Pet>();
 			}
+			return list;
 		} catch (Exception e) {
 			throw new Exception("查询宠物失败");
 		}
-		return list;
 	}
 
 
@@ -55,6 +56,7 @@ public class PetServiceImpl implements PetService{
 			if (null==pet) {
 				throw new Exception("宠物不存在");
 			}
+			pet.setPetPhoto(OSS.INSTANCE.generateUrl(pet.getPetPhoto(), OSS.INSTANCE.PET_STYLE));
 		} catch (Exception e) {
 			throw new Exception("查找宠物失败");
 		}

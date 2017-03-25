@@ -149,6 +149,7 @@ FROM
 						r.r_content AS p_content,
 						r.r_time AS p_time,
 						NULL AS bar_id,
+						0 AS is_top,
 						NULL AS pc_name,
 						NULL AS bar_name,
 						r.r_id,
