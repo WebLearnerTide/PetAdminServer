@@ -7,15 +7,22 @@
     <result column="plog_title" property="plogTitle" jdbcType="VARCHAR" />
     <result column="plog_content" property="plogContent" jdbcType="VARCHAR" />
     <result column="plog_time" property="plogTime" jdbcType="TIMESTAMP" />
+    <result column="plog_img" property="plogImg" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    plog_code, pet_id, plog_title, plog_content, plog_time
+    plog_code, pet_id, plog_title, plog_content, plog_time,plog_img
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from petlog
     where plog_code = #{plogCode,jdbcType=VARCHAR}
+  </select>
+  <select id="getLogsByPet" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from petlog
+    where pet_id=#{pId} order by plog_time desc
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from petlog
@@ -45,6 +52,9 @@
       <if test="plogTime != null" >
         plog_time,
       </if>
+      <if test="plogImg != null" >
+        plog_img,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="plogCode != null" >
@@ -61,6 +71,9 @@
       </if>
       <if test="plogTime != null" >
         #{plogTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="plogImg != null" >
+        #{plogImg,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>

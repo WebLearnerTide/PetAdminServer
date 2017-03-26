@@ -1,7 +1,11 @@
 package cn.ctide.pet.Model;
 
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.Date;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class PetLog {
     private String plogCode;
 
@@ -12,6 +16,8 @@ public class PetLog {
     private String plogContent;
 
     private Date plogTime;
+
+    private String plogImg;
 
     public String getPlogCode() {
         return plogCode;
@@ -51,5 +57,13 @@ public class PetLog {
 
     public void setPlogTime(Date plogTime) {
         this.plogTime = plogTime;
+    }
+
+    public String getPlogImg() {
+        return plogImg;
+    }
+
+    public void setPlogImg(String plogImg) {
+        this.plogImg = plogImg;
     }
 }

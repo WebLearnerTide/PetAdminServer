@@ -1,6 +1,9 @@
 package cn.ctide.pet.Dao;
 
 import cn.ctide.pet.Model.PetLog;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface PetLogMapper {
     int deleteByPrimaryKey(String plogCode);
@@ -14,4 +17,6 @@ public interface PetLogMapper {
     int updateByPrimaryKeySelective(PetLog record);
 
     int updateByPrimaryKey(PetLog record);
+
+    List<PetLog> getLogsByPet(@Param("pId") Integer pId);
 }

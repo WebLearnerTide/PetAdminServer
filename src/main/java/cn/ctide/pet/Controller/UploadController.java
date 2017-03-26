@@ -27,13 +27,10 @@ public class UploadController {
 
     @RequestMapping("/masterImg")
     @ResponseBody
-    public Map masterImg(@RequestParam(value = "file", required = false) MultipartFile file, Master master) {
-//        file.getBytes()
+    public Map masterImg(@RequestParam(value = "file", required = false) MultipartFile file, Master master) throws Exception {
         Map result = new HashMap();
-        System.out.println("开始");
         String path = "/pet/tmp";
         String fileName = master.getmName() + ".jpeg";
-//        String fileName = new Date().getTime()+".jpg";
         System.out.println(path);
         File targetFile = new File(path, fileName);
         if(!targetFile.exists()){
@@ -41,19 +38,13 @@ public class UploadController {
         }
 
         //保存
-        try {
-            file.transferTo(targetFile);
-            OSS.INSTANCE.upload("user/", targetFile);
-            targetFile.delete();
-            master.setmImg("user/" + fileName);
-            master = masterService.updateMaster(master);
-            result.put("success", true);
-            result.put("master", master);
-        } catch (Exception e) {
-            e.printStackTrace();
-            result.put("success", false);
-            result.put("msg", e.getMessage());
-        }
+        file.transferTo(targetFile);
+        OSS.INSTANCE.upload("user/", targetFile);
+        targetFile.delete();
+        master.setmImg("user/" + fileName);
+        masterService.updateMaster(master);
+        result.put("success", true);
+//        result.put("master", master);
         return result;
     }
 }
