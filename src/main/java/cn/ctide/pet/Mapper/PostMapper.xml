@@ -173,8 +173,11 @@ LEFT JOIN `master` m ON (r.m_id = m.m_id)
 	and a.is_top = #{isTop} order by
 	a.p_time desc
   </select>
+    <select id="getNextPostCode" resultType="java.lang.Integer">
+      SELECT nextval('POST_ID')
+    </select>
 
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from post
     where p_id = #{pId,jdbcType=INTEGER}
   </delete>

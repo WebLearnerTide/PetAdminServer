@@ -14,6 +14,8 @@ public interface PostMapper {
 
     int insertSelective(Post record);
 
+    Integer getNextPostCode();
+
     Post selectByPrimaryKey(Integer pId);
 
     int updateByPrimaryKeySelective(Post record);

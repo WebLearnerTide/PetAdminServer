@@ -33,9 +33,12 @@ public class PostController {
     public Map addPost(Post post) {
         Map result = new HashMap();
         try {
+            int pId = postService.getNextId();
+            post.setpId(pId);
             int count = postService.addNewPost(post);
             if (count==1) {
                 result.put("success", true);
+                result.put("pId", pId);
             } else {
                 result.put("seuccess", false);
                 result.put("msg", "添加失败");

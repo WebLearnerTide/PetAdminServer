@@ -23,4 +23,6 @@ public interface PostService {
     Map getBarPost(Page p, Integer barId);
 
     List getBarTopPost(Integer barId) throws Exception;
+
+    Integer getNextId();
 }

@@ -3,6 +3,8 @@ package cn.ctide.pet.Service.impl;
 import cn.ctide.pet.Dao.PostMapper;
 import cn.ctide.pet.Model.Post;
 import cn.ctide.pet.Model.PostDetail;
+import cn.ctide.pet.Model.PostResources;
+import cn.ctide.pet.Service.PostResourcesService;
 import cn.ctide.pet.Service.PostService;
 import cn.ctide.pet.container.OSS;
 import cn.ctide.pet.util.Page;
@@ -19,6 +21,8 @@ import java.util.*;
 public class PostServiceImpl implements PostService {
     @Autowired
     private PostMapper postMapper;
+    @Autowired
+    private PostResourcesService postResourcesService;
 
     @Override
     public Map getHotPost(Page page) {
@@ -101,10 +105,20 @@ public class PostServiceImpl implements PostService {
                 result.put("page", 1);
                 result.put("empty", true);
             } else {
-                result.put("postDetail", list);
+                PostDetail detail = list.get(0);
+                List<PostResources> resources = postResourcesService.getResources(detail.getpId());
+                if (null!=resources && resources.size()!=0) {
+                    List<String> urls = new ArrayList<>();
+                    for (PostResources p : resources) {
+                        urls.add(OSS.INSTANCE.generateUrl(p.getResImg(), ""));
+                    }
+                    detail.setImgList(urls);
+                }
+                list.set(0, detail);
                 result.put("total", ((com.github.pagehelper.Page)list).getPages());
                 result.put("page", ((com.github.pagehelper.Page)list).getPageNum());
                 result.put("empty", false);
+                result.put("postDetail", list);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -184,5 +198,10 @@ public class PostServiceImpl implements PostService {
     @Override
     public List getBarTopPost(Integer barId) throws Exception {
         return postMapper.getBarPost(barId, true);
+    }
+
+    @Override
+    public Integer getNextId() {
+        return postMapper.getNextPostCode();
     }
 }

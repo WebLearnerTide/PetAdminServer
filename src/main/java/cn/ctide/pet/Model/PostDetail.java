@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Anker on 2017/3/23.
@@ -37,6 +38,7 @@ public class PostDetail {
     private String fContent;
     private Integer fId;
     private String fName;
+    private List<String> imgList;
 
     @JsonIgnore
     private Integer rowno;
@@ -178,5 +180,13 @@ public class PostDetail {
 
     public void setfName(String fName) {
         this.fName = fName;
+    }
+
+    public List<String> getImgList() {
+        return imgList;
+    }
+
+    public void setImgList(List<String> imgList) {
+        this.imgList = imgList;
     }
 }
