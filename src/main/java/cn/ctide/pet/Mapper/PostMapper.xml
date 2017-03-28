@@ -100,67 +100,79 @@
   </select>
 
   <select id="getCollectPost" resultMap="hotMap">
-    SELECT
-        a.*,c.pc_name,d.bar_name,e.m_name
-    FROM
-        post a,
-        m_p_collect b,
-        postclass c,
-        postbar d,
-        master e
-    WHERE
-        a.p_id = b.p_id
-    AND a.pc_id = c.pc_id
-    AND a.bar_id = d.bar_id
-    AND e.m_id=a.m_id
-    AND a.m_id=#{mId}
+    select p.*,m.m_name from (SELECT
+	a.*, c.pc_name,
+	d.bar_name
+  FROM
+      post a,
+      m_p_collect b,
+      postclass c,
+      postbar d
+  WHERE
+      a.p_id = b.p_id
+  AND a.pc_id = c.pc_id
+  AND a.bar_id = d.bar_id
+  AND b.m_id =#{mId}) p , `master` m WHERE p.m_id=m.m_id
   </select>
 
   <select id="getPostDetail" resultMap="postDetail">
     SELECT
-	detail.*, r.r_content,
-	r.m_id AS f_id,
-	m.m_name as f_name
-FROM
-	(
-		SELECT
-			a.*, b.m_name,
-			concat(@cur :=@cur + 1) AS rowno
-		FROM
-			(
-				SELECT
-					p.*, pc.pc_name,
-					pb.bar_name,
-					NULL AS r_id,
-					NULL AS r_ided
-				FROM
-					post p,
-					postclass pc,
-					postbar pb
-				WHERE
-					p.pc_id = pc.pc_id
-				AND p.bar_id = pb.bar_id
-				UNION ALL
-					SELECT
-						r.p_id,
-						NULL AS pc_id,
-						r.m_id,
-						NULL AS p_title,
-						r.r_content AS p_content,
-						r.r_time AS p_time,
-						NULL AS bar_id,
-						0 AS is_top,
-						NULL AS pc_name,
-						NULL AS bar_name,
-						r.r_id,
-						r.r_ided
-					FROM
-						reply r
-			) a
-		LEFT JOIN `master` b ON (a.m_id = b.m_id),
-		(SELECT @cur := 0) t
-	WHERE
-		a.p_id = #{pId}
+        detail.*, r.r_content,
+        r.m_id AS f_id,
+        m.m_name as f_name
+    FROM
+        (
+            SELECT
+                a.*,
+                concat(@cur :=@cur + 1) AS rowno
+            FROM
+                (
+                    SELECT
+                        p.p_id,
+                        p.pc_id,
+                        p.m_id,
+                        m.m_img,
+                        m.m_name,
+                        p.p_title,
+                        p.p_content,
+                        p.p_time,
+                        p.bar_id,
+                        p.is_top,
+                        pc.pc_name,
+                        pb.bar_name,
+                        NULL AS r_id,
+                        NULL AS r_ided
+                    FROM
+                        post p,
+                        postclass pc,
+                        postbar pb,`master` m
+                    WHERE
+                        p.pc_id = pc.pc_id
+                    AND m.m_id=p.m_id
+                    AND p.bar_id = pb.bar_id
+                    UNION ALL
+                        SELECT
+                            r.p_id,
+                            NULL AS pc_id,
+                            r.m_id,
+                            m.m_img,
+                            m.m_name,
+                            NULL AS p_title,
+                            r.r_content AS p_content,
+                            r.r_time AS p_time,
+                            NULL AS bar_id,
+                            0 AS is_top,
+                            NULL AS pc_name,
+                            NULL AS bar_name,
+                            r.r_id,
+                            r.r_ided
+                        FROM
+                            reply r,`master` m
+                        where r.m_id=m.m_id
+                ) a,
+            (SELECT @cur := 0) t
+        WHERE
+            a.p_id = #{pId}
 	ORDER BY
 		a.p_time
 	) detail

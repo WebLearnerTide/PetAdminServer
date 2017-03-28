@@ -63,4 +63,12 @@ public class PetServiceImpl implements PetService{
 		return pet;
 	}
 
+	@Override
+	public void updatePet(Pet pet) throws Exception {
+		int count = petMapper.updateByPrimaryKeySelective(pet);
+		if (count!=1) {
+			throw new Exception("添加失败");
+		}
+	}
+
 }

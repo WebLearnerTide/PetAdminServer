@@ -1,5 +1,6 @@
 package cn.ctide.pet.Model;
 
+import cn.ctide.pet.container.OSS;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
@@ -39,6 +40,7 @@ public class PostDetail {
     private Integer fId;
     private String fName;
     private List<String> imgList;
+    private String mImg;
 
     @JsonIgnore
     private Integer rowno;
@@ -188,5 +190,14 @@ public class PostDetail {
 
     public void setImgList(List<String> imgList) {
         this.imgList = imgList;
+    }
+
+    public String getmImg() {
+        mImg = null==mImg?"user/default.png":mImg;
+        return OSS.INSTANCE.generateUrl(mImg.toString(), OSS.INSTANCE.USER_STYLE);
+    }
+
+    public void setmImg(String mImg) {
+        this.mImg = mImg;
     }
 }

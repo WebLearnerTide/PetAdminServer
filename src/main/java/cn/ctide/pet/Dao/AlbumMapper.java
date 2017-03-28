@@ -1,6 +1,7 @@
 package cn.ctide.pet.Dao;
 
 import cn.ctide.pet.Model.Album;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -17,5 +18,5 @@ public interface AlbumMapper {
 
     int updateByPrimaryKey(Album record);
 
-    List<Album> getPetAlbum(Integer petId);
+    List<Album> getPetAlbum(@Param("petId") Integer petId);
 }

@@ -16,7 +16,11 @@
     where photo_id = #{photoId,jdbcType=INTEGER}
   </select>
     <select id="getPetAlbum" resultMap="BaseResultMap">
-
+      SELECT
+      <include refid="Base_Column_List"/>
+      FROM
+      album
+      WHERE pet_id = #{petId}
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from album

@@ -11,4 +11,6 @@ public interface PetService {
 	List<Pet> getByMasterId(Integer mId)  throws Exception;
 	
 	Pet getByPetId(Integer petId) throws Exception;
+
+    void updatePet(Pet pet) throws Exception;
 }
