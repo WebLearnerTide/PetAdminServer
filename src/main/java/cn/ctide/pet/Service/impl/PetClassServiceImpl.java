@@ -42,4 +42,9 @@ public class PetClassServiceImpl implements PetClassService {
 		return list;
 	}
 
+	@Override
+	public List<PetClass> getMasterClass(Integer mId) {
+		return petClassMapper.getPetClass(mId);
+	}
+
 }

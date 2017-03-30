@@ -3,6 +3,7 @@ package cn.ctide.pet.Dao;
 import java.util.List;
 
 import cn.ctide.pet.Model.PetClass;
+import org.apache.ibatis.annotations.Param;
 
 public interface PetClassMapper {
     int deleteByPrimaryKey(Integer petcId);
@@ -20,4 +21,6 @@ public interface PetClassMapper {
     int updateByPrimaryKeySelective(PetClass record);
 
     int updateByPrimaryKey(PetClass record);
+
+    List<PetClass> getPetClass(@Param("mId") Integer mId);
 }

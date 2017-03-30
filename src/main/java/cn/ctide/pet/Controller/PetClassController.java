@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.ctide.pet.Model.PetClass;
+import cn.ctide.pet.Model.PostClass;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,4 +52,18 @@ public class PetClassController {
 		return result;
 	}
 
+	@RequestMapping("/getByMaster")
+	@ResponseBody
+	public Map getByMaster(Integer mId) {
+		Map result = new HashMap();
+		try {
+			List<PetClass> list = petClassService.getMasterClass(mId);
+			result.put("petClass",list);
+			result.put("success", true);
+		} catch (Exception e) {
+			result.put("success", false);
+			result.put("msg", e.getMessage());
+		}
+		return result;
+	}
 }

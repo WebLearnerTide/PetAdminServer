@@ -45,8 +45,14 @@
   	select distinct petc_build, petc_build_name
   	from petclass
   </select>
-  
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <select id="getPetClass" resultMap="BaseResultMap">
+      SELECT DISTINCT pc.petc_id, pc.petc_name, pc.petc_build, pc.petc_build_name
+      FROM pet a, petclass pc
+      WHERE a.petc_id = pc.petc_id
+      AND a.m_id=#{mId}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from petclass
     where petc_id = #{petcId,jdbcType=INTEGER}
   </delete>

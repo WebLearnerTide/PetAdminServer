@@ -10,4 +10,5 @@ public interface PetClassService {
 	
 	List<PetClass> getBuilds() throws Exception;
 
+    List<PetClass> getMasterClass(Integer mId);
 }
